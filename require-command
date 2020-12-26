@@ -1,0 +1,9 @@
+#!/bin/sh -eu
+
+for command in "$@"; do
+	ret=$(print-exit-status is-command-available "$command")
+	if [ "$ret" -ne 0 ]; then
+		echo "command not found: $command"
+		exit "$ret"
+	fi
+done
