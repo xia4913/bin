@@ -1,0 +1,5 @@
+#!/bin/sh -eu
+
+re='^alias\.'
+tab=$(printf '%b' '\t')
+git config --get-regexp "$re" | sed 's/'"$re"'//; s/ /\t/' | column -ts"$tab"

@@ -1,0 +1,12 @@
+#!/bin/sh -eu
+
+GIT_DIR="$HOME"/.dotfiles.git
+if [ -e "$GIT_DIR" ]; then
+	echo 'alredy cloned'
+	exit 1
+fi
+
+git clone --bare https://github.com/xia4913/dotfiles.git "$GIT_DIR"
+dotfiles checkout
+dotfiles config status.showUntrackedFiles no
+echo '*' >>"$GIT_DIR"/info/exclude
