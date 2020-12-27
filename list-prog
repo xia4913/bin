@@ -1,0 +1,7 @@
+#!/bin/sh -e
+
+if [ -n "$LIST" ]; then
+	echo "$LIST"
+else
+	command-available-first exa ls
+fi

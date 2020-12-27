@@ -1,0 +1,18 @@
+#!/bin/sh -eu
+
+(
+	flags=
+	case $(list-prog) in
+	exa)
+		flags=-lrsnew
+		;;
+	*)
+		flags=-got
+		;;
+	esac
+	# shellcheck disable=SC2086
+	unbuffer l $flags "$@"
+) | sed '
+	/^total/d
+	/:$/!s/^\([^ ]* *\)\{3\}//
+'
