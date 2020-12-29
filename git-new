@@ -1,0 +1,8 @@
+#/bin/sh -eu
+
+if git-is-in; then
+	echo 'already initialized'
+	exit 1
+else
+	git init && git commit --allow-empty -m init
+fi

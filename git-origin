@@ -1,0 +1,33 @@
+#!/bin/sh -eu
+
+if ! git-is-in; then
+	exit 127
+fi
+
+short=
+while getopts s f; do
+	case $f in
+	s)
+		short=true
+		;;
+	\?)
+		;;
+	esac
+done
+#shift $(( OPTIND - 1 ))
+
+origin=$(git remote -v | awk '($1 == "origin" && $3 == "(fetch)") { print $2; }')
+if [ -z "$origin" ]; then
+	exit 127
+fi
+if [ "$short" != true ]; then
+	echo "$origin"
+else
+	echo "$origin" | awk '
+		/\/\/github\.com/ {
+			sub(".*//[^/]*/", "github:", $0);
+			sub("\\.git$", "", $0);
+			print;
+		}
+	'
+fi

@@ -1,0 +1,2 @@
+#!/bin/sh -eu
+git-is-in && git rev-parse --show-toplevel
