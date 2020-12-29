@@ -1,0 +1,15 @@
+#!/bin/sh -eu
+
+flags=
+while getopts m: f; do
+	case $f in
+	m)
+		flags="-m $OPTARG"
+		;;
+	\?)
+		exit 1
+		;;
+	esac
+done
+# shellcheck disable=SC2086
+exec install $flags -d "$@"

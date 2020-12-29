@@ -1,0 +1,17 @@
+#!/bin/sh -e
+
+name=$1
+
+if [ -n "$XDG_RUNTIME_DIR" ]; then
+	run_dir="$XDG_RUNTIME_DIR"
+else
+	run_dir="${TMPDIR:-$(tmp-dir)}/run"
+	prepare-dir -m 700 "$run_dir"
+fi
+
+dir=$run_dir
+if [ -n "$name" ]; then
+	dir=$dir/$name
+	prepare-dir -m 700 "$dir"
+fi
+echo "$dir"
