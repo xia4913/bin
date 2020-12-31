@@ -1,6 +1,6 @@
 #!/bin/sh -eu
 
-if [ -z "$TMPDIR" ]; then
+if [ -z "${TMPDIR:-}" ]; then
 	TMPDIR=/tmp/$(whoami)/tmp
 fi
 prepare-dir -m 700 "$TMPDIR"

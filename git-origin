@@ -14,7 +14,7 @@ while getopts s f; do
 		;;
 	esac
 done
-#shift $(( OPTIND - 1 ))
+shift $(( OPTIND - 1 ))
 
 origin=$(git remote -v | awk '($1 == "origin" && $3 == "(fetch)") { print $2; }')
 if [ -z "$origin" ]; then

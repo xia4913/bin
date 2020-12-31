@@ -1,8 +1,8 @@
-#!/bin/sh -e
+#!/bin/sh -eu
 
-name=$1
+name=${1:-}
 
-if [ -n "$XDG_RUNTIME_DIR" ]; then
+if [ -n "${XDG_RUNTIME_DIR:-}" ]; then
 	run_dir="$XDG_RUNTIME_DIR"
 else
 	run_dir="${TMPDIR:-$(tmp-dir)}/run"

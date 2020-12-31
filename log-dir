@@ -1,6 +1,6 @@
-#!/bin/sh -e
+#!/bin/sh -eu
 
-name=$1
+name=${1:-}
 dir=${TMPDIR:-$(tmp-dir)}/log
 prepare-dir -m 700 "$dir"
 if [ -n "$name" ]; then
