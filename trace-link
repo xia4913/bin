@@ -1,0 +1,69 @@
+#!/bin/sh -eu
+# See also namei(1) in util-linux
+
+show_link() {
+	f=$1
+	print_without_newline "$f"
+	target=$(link_target "$f")
+	if [ -n "$target" ]; then
+		print_escape_sequence "$ofs"
+		show_link "$target"
+	fi
+}
+link_target() {
+	f=$1
+	if [ ! -h "$f" ];then
+		return 0
+	fi
+	l=$(readlink "$f")
+	if ! is-absolute "$l"; then
+		l="$(dirname "$f")/$l"
+	fi
+	echo "$l"
+}
+print_without_newline() {
+	printf '%s' "$*"
+}
+print_escape_sequence() {
+	printf '%b' "$*"
+}
+resolve_path() {
+	f=$1
+	if [ -e "$f" ]; then
+		echo "$f"
+	else
+		set +e
+		s=$(command -v "$f")
+		status=$?
+		set -e
+		if [ "$status" -ne 0 ]; then
+			echo "$f not found"
+			exit "$status"
+		fi
+		echo "$s"
+	fi
+}
+
+ors='\n'
+ofs=' -> '
+while getopts d:tz f; do
+	case "$f" in
+	d)
+		ofs=$OPTARG
+		;;
+	t)
+		ofs='\t'
+		;;
+	z)
+		ors='\0'
+		;;
+	\?)
+		exit 1
+	esac
+done
+shift $(( OPTIND - 1 ))
+
+for i in "$@"; do
+	show_link "$(resolve_path "$i")"
+	print_escape_sequence "$ors"
+done

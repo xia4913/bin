@@ -1,0 +1,7 @@
+#!/bin/sh -eu
+
+if [ ! -t 0 ]; then
+	exec cat
+else
+	exec echo "$@"
+fi

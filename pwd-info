@@ -1,0 +1,12 @@
+#!/bin/sh -eu
+
+if git-is-in; then
+	s=$(git-origin -s || echo "git:$(git-top)")
+	relative=$(git-relative)
+	if [ "$relative" != '.' ]; then
+		s="$s $relative"
+	fi
+	echo "$s"
+else
+	echo "$PWD"
+fi

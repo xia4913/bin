@@ -1,0 +1,24 @@
+#!/bin/sh -eu
+
+time_column=$(
+	if dumb ps -o start_time r; then
+		echo start_time
+	else
+		echo time
+	fi
+)
+
+ps_args="-o ppid,pid,stat,tname,$time_column,command"
+if dumb ps --sort pid r; then
+	ps_args="$ps_args --sort uid,ppid,$time_column"
+fi
+
+pgrep_args=$*
+if [ -z "$pgrep_args" ]; then
+	pgrep_args="-U $USER -x $(basename "$SHELL")"
+else
+	ps_args="-o user $ps_args"
+fi
+
+# shellcheck disable=SC2086
+pgrep $pgrep_args | xargs -r ps $ps_args p

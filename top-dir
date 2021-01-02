@@ -1,0 +1,23 @@
+#!/bin/sh -eu
+
+sentinels=$*
+if [ -z "$sentinels" ]; then
+	git-top && exit 0
+	if [ -n "${XDG_CONFIG_HOME:-}" ]; then
+		file="$XDG_CONFIG_HOME"/top-dir/sentinels
+		if [ -f "$file" ]; then
+			sentinels=$(cat "$file")
+		fi
+	fi
+fi
+for dir in $(dseq); do
+	for sentinel in $sentinels; do
+		# $sentinel may contain wildcards
+		# shellcheck disable=SC2086
+		if dumb ls "$dir"/$sentinel; then
+			echo "$dir"
+			exit 0
+		fi
+	done
+done
+exit 1

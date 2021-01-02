@@ -1,0 +1,18 @@
+#!/bin/sh -eu
+
+dir=${1:-}
+if [ -z "$dir" ]; then
+	dir=$PWD
+fi
+
+if is-absolute "$dir"; then
+	sentinel=/
+else
+	sentinel=.
+fi
+
+while [ "$dir" != "$sentinel" ]; do
+	echo "$dir"
+	dir=$(dirname "$dir")
+done
+echo "$dir"
