@@ -1,0 +1,118 @@
+#!/bin/sh -eu
+
+# shellcheck disable=SC2046
+set -- $(shell-style-option "$@")
+sh_opt=$1
+shift
+
+find_dirs() {
+	r=
+	for i in "$@"; do
+		if [ -d "$i" ]; then
+			r="$r $i"
+		fi
+	done
+	echo "$r"
+}
+zip_compat() {
+	for i in "$@"; do
+		echo "$i"
+		echo "$i"/compat
+	done
+}
+replace_bin() {
+	dest=$1
+	shift
+	echo "$@" | tr ' ' '\n' | sed -n '/\/bin$/s#/bin$#/'"$dest"'#p'
+}
+set_path() {
+	list=$*
+	if [ -n "$list" ]; then
+		case "$sh_opt" in
+		s)
+			echo "PATH='$list'"
+			;;
+		z)
+			echo "path=($list)"
+			;;
+		c)
+			echo "set path=($list)"
+			;;
+		esac
+	fi
+}
+path_list() {
+	case "$sh_opt" in
+	s)
+		echo "$@" | paste ' ' :
+		;;
+	c|z)
+		echo "$@"
+		;;
+	esac
+}
+environ_from_file() {
+	file=$1
+	if ! [ -f "$file" ]; then
+		return
+	fi
+	<"$file" sed -n '/=/{s/=/ /p}'| while read -r name value; do
+		set-environ-command -"$sh_opt" "$name" "$value"
+	done
+}
+distribution() {
+	if [ -f /etc/os-release ]; then
+		awk -F= '($1 == "ID") { print $2; }' /etc/os-release
+	else
+		echo unknown
+	fi
+}
+
+host=$(hostname -s)
+os=$(uname -s)
+machine=$(uname -m)
+dist=$(distribution)
+# shellcheck disable=SC2046
+homes=$(find_dirs $(zip_compat "
+	$HOME/bin/host/$host
+	$HOME/bin/arch/$os/$machine
+	$HOME/bin/arch/$os
+	$HOME/bin/dist/$dist
+	$HOME/bin/shims
+	$HOME/bin/games
+	$HOME/bin
+"))
+
+if dumb id asdf; then
+	asdf_dir=~asdf/.asdf
+	environ_from_file ~asdf/etc/env
+else
+	asdf_dir=$HOME/.asdf
+fi
+langs=$(find_dirs "
+	$HOME/lib/ruby/misc/bin
+	$HOME/.cargo/bin
+	$HOME/.go/bin
+	$HOME/.local/bin
+	$asdf_dir/bin
+	$asdf_dir/shims
+")
+
+userlands=$(find_dirs "
+	/usr/local/bin
+	/snap/bin
+	/usr/pkg/bin
+	/usr/bin
+	/bin
+")
+
+# shellcheck disable=SC2046,SC2086
+sbin=$(find_dirs $(replace_bin sbin $homes $userlands))
+# shellcheck disable=SC2046,SC2086
+games=$(find_dirs $(replace_bin games $homes $userlands))
+path="$homes $langs $userlands $sbin $games"
+
+# shellcheck disable=SC2046,SC2086
+games=$(find_dirs $(replace_bin games $homes $userlands))
+# shellcheck disable=SC2046,SC2086
+set_path $(path_list $path)

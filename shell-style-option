@@ -1,0 +1,38 @@
+#!/bin/sh -eu
+
+while getopts csz f; do
+	case "$f" in
+	c|s|z)
+		sh_opt=$f
+		;;
+	\?)
+		progname=${0}
+		cat <<EOF
+Usage: $progname [options]
+Options:
+  -c    output C-shell style commands.
+  -s    output Bourne shell style commands.
+  -z    output Z shell style commands.
+EOF
+		exit 2
+		;;
+	esac
+done
+shift $(( OPTIND - 1 ))
+
+if [ -z "${sh_opt:-}" ]; then
+	case $(basename "$SHELL") in
+	csh|tcsh)
+		sh_opt=c
+		;;
+	zsh)
+		sh_opt=z
+		;;
+	*)
+		sh_opt=s
+		;;
+	esac
+fi
+
+echo "$sh_opt"
+echo "$@"
