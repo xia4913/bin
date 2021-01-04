@@ -1,0 +1,15 @@
+#!/bin/sh -eu
+
+set_tty() {
+	stty_save=$(stty -g)
+	stty raw -echo -isig
+}
+reset_tty() {
+	if [ -n "$stty_save" ]; then
+		stty "$stty_save"
+	fi
+}
+
+trap reset_tty EXIT
+set_tty
+"$@"

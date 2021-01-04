@@ -1,0 +1,2 @@
+#!/bin/sh -eu
+exec no-echo dd bs=1 count=1 status=none
