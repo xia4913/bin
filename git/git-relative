@@ -1,0 +1,5 @@
+#!/bin/sh -eu
+
+git-error-unless-inside
+readonly top="$(git-top)"
+exec realpath --relative-to="$top" "$PWD"

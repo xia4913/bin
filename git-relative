@@ -1,2 +1,0 @@
-#!/bin/sh -eu
-top=$(git-top) && exec realpath --relative-to="$top" "$PWD"

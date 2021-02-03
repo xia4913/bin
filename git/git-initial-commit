@@ -1,0 +1,3 @@
+#!/bin/sh -eu
+# shellcheck disable=SC2086
+git rev-list --reverse ${*:-HEAD} | head -1

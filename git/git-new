@@ -1,6 +1,6 @@
 #/bin/sh -eu
 
-if git-is-in; then
+if git-is-inside; then
 	echo 'already initialized'
 	exit 1
 else

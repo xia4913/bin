@@ -1,10 +1,6 @@
 #!/bin/sh -eu
 
-if ! git-is-in; then
-	exit 127
-fi
-
-short=
+git-error-unless-inside
 while getopts s f; do
 	case $f in
 	s)
@@ -16,11 +12,11 @@ while getopts s f; do
 done
 shift $(( OPTIND - 1 ))
 
-origin=$(git remote -v | awk '($1 == "origin" && $3 == "(fetch)") { print $2; }')
+readonly origin="$(git remote -v | awk '($1 == "origin" && $3 == "(fetch)") { print $2; }')"
 if [ -z "$origin" ]; then
 	exit 127
 fi
-if [ "$short" != true ]; then
+if [ "${short:-}" != true ]; then
 	echo "$origin"
 else
 	echo "$origin" | awk '

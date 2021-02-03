@@ -1,0 +1,2 @@
+#!/bin/sh -eu
+exec [ "$(git rev-parse --is-inside-work-tree)" = true ]

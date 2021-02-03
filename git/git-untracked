@@ -1,0 +1,2 @@
+#!/bin/sh -eu
+exec git ls-files --others --exclude-standard

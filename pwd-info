@@ -1,6 +1,6 @@
 #!/bin/sh -eu
 
-if git-is-in; then
+if git-is-inside; then
 	s=$(git-origin -s || echo "git:$(git-top)")
 	relative=$(git-relative)
 	if [ "$relative" != '.' ]; then

@@ -1,0 +1,2 @@
+#!/bin/sh -eu
+git-error-unless-inside && exec git-branch-name "$(git-parent-commit)"
