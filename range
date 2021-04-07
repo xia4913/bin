@@ -1,0 +1,37 @@
+#!/bin/sh -Ceu
+
+number() {
+	n=$1
+	if dumb [ 0 -lt "$n" ]; then
+		echo "$n"
+	else
+		echo "Integer expected: $n" >&2
+		exit 1
+	fi
+}
+first() {
+	number "${1%%-*}"
+}
+last() {
+	number "${1##*-}"
+}
+
+echo "$*" | sed 's/,/ /g; s/  */\n/g' | while read -r i; do
+	case $i in
+	-*)
+		seq 1 "$(last "$i")"
+		;;
+	*-*)
+		f=$(first "$i")
+		l=$(last "$i")
+		if [ "$f" -lt "$l" ]; then
+			seq "$f" "$l"
+		else
+			seq "$f" -1 "$l"
+		fi
+		;;
+	*)
+		number "$i"
+		;;
+	esac
+done

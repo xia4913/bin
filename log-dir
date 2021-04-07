@@ -1,10 +1,10 @@
-#!/bin/sh -eu
+#!/bin/sh -Ceu
 
 name=${1:-}
 dir=${TMPDIR:-$(tmp-dir)}/log
-prepare-dir -m 700 "$dir"
+mkdir -pm 700 "$dir"
 if [ -n "$name" ]; then
 	dir="$dir/$name"
-	prepare-dir -m 700 "$dir"
+	mkdir -pm 700 "$dir"
 fi
 echo "$dir"

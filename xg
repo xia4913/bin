@@ -1,2 +1,2 @@
-#!/bin/sh -eu
-exec xargs g "$@"
+#!/bin/sh -Ceu
+exec xargs "$(basename "$0" | sed 's/^x//')" "$@"
