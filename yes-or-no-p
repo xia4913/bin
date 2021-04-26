@@ -1,18 +1,17 @@
 #!/bin/sh -Ceu
 
 prompt="${1:-?}"
-y="${2:-y}"
-n="${3:-n}"
-s=$(printf '%s (%s/%s) ' "$prompt" "$y" "$n")
+yes="${2:-yes}"
+no="${3:-no}"
+s=$(printf '%s (%s/%s) ' "$prompt" "$yes" "$no")
 while :; do
 	printf %s "$s"
-	answer=$(getch)
-	echo "$answer"
+	read -r answer
 	case $answer in
-	"$y")
+	"$yes")
 		exit 0
 		;;
-	"$n")
+	"$no")
 		exit 1
 		;;
 	esac

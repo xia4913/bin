@@ -1,4 +1,4 @@
-#!/bin/sh -eu
+#!/bin/sh -Ceu
 
 set_tty() {
 	stty_save=$(stty -g)
