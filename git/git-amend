@@ -1,2 +1,2 @@
-#!/bin/sh -eu
+#!/bin/sh -Ceu
 exec git commit --amend --no-edit "$@"

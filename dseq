@@ -1,4 +1,4 @@
-#!/bin/sh -eu
+#!/bin/sh -Ceu
 
 dir=${1:-}
 if [ -z "$dir" ]; then

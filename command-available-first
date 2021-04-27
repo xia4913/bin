@@ -1,4 +1,4 @@
-#!/bin/sh -eu
+#!/bin/sh -Ceu
 
 for i in "$@"; do
 	if is-command-available "$i"; then

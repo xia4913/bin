@@ -1,4 +1,4 @@
-#!/bin/sh -eu
+#!/bin/sh -Ceu
 # See also namei(1) in util-linux
 
 show_link() {
@@ -47,7 +47,7 @@ resolve_path() {
 ors='\n'
 ofs=' -> '
 while getopts d:tz f; do
-	case "$f" in
+	case $f in
 	d)
 		ofs=$OPTARG
 		;;

@@ -1,4 +1,4 @@
-#!/bin/sh -eu
+#!/bin/sh -Ceu
 
 sentinels=$*
 if [ -z "$sentinels" ]; then

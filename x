@@ -1,2 +1,2 @@
-#!/bin/sh -eux
+#!/bin/sh -Ceux
 exec "$@"

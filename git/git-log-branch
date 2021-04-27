@@ -1,8 +1,11 @@
-#!/bin/sh -eu
+#!/bin/sh -Ceu
 
 git-error-unless-inside
 if ! git-is-main-branch; then
-	flags="$(git-parent-commit).."
+	parent=$(git-parent-commit)
+	if [ -n "$parent" ]; then
+		flags="$parent.."
+	fi
 fi
 # shellcheck disable=SC2086
 exec git log ${flags:-} "$@"

@@ -1,10 +1,12 @@
 #!/bin/sh -Ceu
 
 name=${1:-}
-dir=${TMPDIR:-$(tmp-dir)}/log
+dir=$HOME/log
+# shellcheck disable=SC2174
 mkdir -pm 700 "$dir"
 if [ -n "$name" ]; then
 	dir="$dir/$name"
+	# shellcheck disable=SC2174
 	mkdir -pm 700 "$dir"
 fi
 echo "$dir"

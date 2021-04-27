@@ -1,2 +1,2 @@
-#!/bin/sh -eu
+#!/bin/sh -Ceu
 LANG=ja_JP.UTF-8 LC_ALL='' "$@"

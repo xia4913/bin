@@ -1,4 +1,4 @@
-#!/bin/sh -eu
+#!/bin/sh -Ceu
 
 if [ -n "${LESS_PAGING:-}" ]; then
 	# shellcheck disable=SC2034

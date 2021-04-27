@@ -1,4 +1,4 @@
-#!/bin/sh -eu
+#!/bin/sh -Ceu
 
 prompt="${1:-?}"
 yes="${2:-yes}"

@@ -1,2 +1,2 @@
-#!/bin/sh -eu
-exec git show-branch --merge-base
+#!/bin/sh -Ceu
+git show-branch --merge-base || :

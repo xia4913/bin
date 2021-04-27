@@ -1,2 +1,2 @@
-#!/bin/sh -eu
-rhq list | s "$@"
+#!/bin/sh -Ceu
+rhq list | s --query "$@"

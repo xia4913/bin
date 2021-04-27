@@ -1,6 +1,6 @@
-#!/bin/sh -eu
+#!/bin/sh -Ceu
 
-if [ ! -t 0 ]; then
+if is-redirected stdin; then
 	exec cat
 else
 	exec echo "$@"

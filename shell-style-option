@@ -1,7 +1,7 @@
-#!/bin/sh -eu
+#!/bin/sh -Ceu
 
 while getopts csz f; do
-	case "$f" in
+	case $f in
 	c|s|z)
 		sh_opt=$f
 		;;
@@ -30,9 +30,7 @@ if [ -z "${sh_opt:-}" ]; then
 		;;
 	*)
 		sh_opt=s
-		;;
 	esac
 fi
 
-echo "$sh_opt"
-echo "$@"
+echo "$sh_opt" "$@"

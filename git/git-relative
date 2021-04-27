@@ -1,4 +1,4 @@
-#!/bin/sh -eu
+#!/bin/sh -Ceu
 
 git-error-unless-inside
 readonly top="$(git-top)"

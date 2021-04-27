@@ -1,4 +1,4 @@
-#!/bin/sh -eu
+#!/bin/sh -Ceu
 
 readonly re='^alias\.'
 readonly tab="$(printf '%b' '\t')"

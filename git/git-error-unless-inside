@@ -1,2 +1,2 @@
-#!/bin/sh -eu
-exec [ "$(git rev-parse --is-inside-work-tree)" = true ]
+#!/bin/sh -Ceu
+exec [ "$(git rev-parse --is-inside-work-tree 2>/dev/null)" = true ]

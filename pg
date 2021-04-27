@@ -1,4 +1,4 @@
-#!/bin/sh -eu
+#!/bin/sh -Ceu
 
 time_column=$(
 	if dumb ps -o start_time r; then
@@ -15,10 +15,19 @@ fi
 
 pgrep_args=$*
 if [ -z "$pgrep_args" ]; then
-	pgrep_args="-U $USER -x $(basename "$SHELL")"
+	if [ -n "$SHELL" ]; then
+		pgrep_args="$pgrep_args -x $(basename "$SHELL")"
+	fi
+	if [ -n "$USER" ]; then
+		pgrep_args="$pgrep_args -U $USER"
+	fi
 else
 	ps_args="-o user $ps_args"
 fi
+case $(basename "$0") in
+pgf)
+	pgrep_args="-x $pgrep_args"
+esac
 
 # shellcheck disable=SC2086
 pgrep $pgrep_args | xargs -r ps $ps_args p

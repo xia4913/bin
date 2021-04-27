@@ -1,2 +1,2 @@
-#!/bin/sh -eu
+#!/bin/sh -Ceu
 GIT_DIR="$HOME"/.dotfiles.git GIT_WORK_TREE="$HOME" exec git "$@"

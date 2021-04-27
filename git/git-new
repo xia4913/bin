@@ -1,4 +1,4 @@
-#/bin/sh -eu
+#/bin/sh -Ceu
 
 if git-is-inside; then
 	echo 'already initialized'

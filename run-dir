@@ -2,16 +2,22 @@
 
 name=${1:-}
 
+tmp_dir="${TMPDIR:-$(tmp-dir)}"
+run_dir="$tmp_dir"/run
 if [ -n "${XDG_RUNTIME_DIR:-}" ]; then
+	if [ ! -d "$run_dir" ]; then
+		ln -s "$XDG_RUNTIME_DIR" "$run_dir"
+	fi
 	run_dir="$XDG_RUNTIME_DIR"
 else
-	run_dir="${TMPDIR:-$(tmp-dir)}/run"
+	# shellcheck disable=SC2174
 	mkdir -pm 700 "$run_dir"
 fi
 
 dir=$run_dir
 if [ -n "$name" ]; then
 	dir=$dir/$name
+	# shellcheck disable=SC2174
 	mkdir -pm 700 "$dir"
 fi
 echo "$dir"

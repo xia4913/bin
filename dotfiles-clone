@@ -1,4 +1,4 @@
-#!/bin/sh -eu
+#!/bin/sh -Ceu
 
 GIT_DIR="$HOME"/.dotfiles.git
 if [ -e "$GIT_DIR" ]; then

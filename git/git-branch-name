@@ -1,2 +1,7 @@
-#!/bin/sh -eu
-git-error-unless-inside && exec git branch --format '%(refname:short)' --points-at "$@"
+#!/bin/sh -Ceu
+
+if [ -n "$1" ]; then
+	set -- --points-at "$1"
+fi
+# shellcheck disable=SC2090
+git-error-unless-inside && exec git branch --format '%(refname:short)' "$@"

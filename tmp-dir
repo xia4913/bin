@@ -3,5 +3,6 @@
 if [ -z "${TMPDIR:-}" ]; then
 	TMPDIR=/tmp/$(whoami)/tmp
 fi
+# shellcheck disable=SC2174
 mkdir -pm 700 "$TMPDIR"
 echo "$TMPDIR"

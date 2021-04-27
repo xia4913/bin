@@ -1,4 +1,4 @@
-#!/bin/sh -eu
+#!/bin/sh -Ceu
 
 # shellcheck disable=SC2046
 set -- $(shell-style-option "$@")

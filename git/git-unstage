@@ -1,2 +1,2 @@
-#!/bin/sh -eu
-exec git reset HEAD
+#!/bin/sh -Ceu
+exec git reset -q "$@"
