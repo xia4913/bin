@@ -1,2 +1,1 @@
-#!/bin/sh -eu
-exec g -F "$@"
+g

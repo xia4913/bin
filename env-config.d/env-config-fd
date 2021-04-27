@@ -1,0 +1,5 @@
+#!/bin/sh -Ceu
+
+# shellcheck disable=SC1090
+. "$(dirname "$0")/subr"
+search_for_environ COMMAND_FD fd fdfind

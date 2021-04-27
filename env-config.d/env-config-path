@@ -1,9 +1,7 @@
-#!/bin/sh -eu
+#!/bin/sh -Ceu
 
-# shellcheck disable=SC2046
-set -- $(shell-style-option "$@")
-sh_opt=$1
-shift
+# shellcheck disable=SC1090
+. "$(dirname "$0")/subr"
 
 find_dirs() {
 	r=
@@ -15,7 +13,8 @@ find_dirs() {
 	echo "$r"
 }
 zip_compat() {
-	for i in "$@"; do
+	# shellcheck disable=SC2048
+	for i in $*; do
 		echo "$i"
 		echo "$i"/compat
 	done
@@ -28,6 +27,7 @@ replace_bin() {
 set_path() {
 	list=$*
 	if [ -n "$list" ]; then
+		# shellcheck disable=SC2154
 		case "$sh_opt" in
 		s)
 			echo "PATH='$list'"
@@ -44,7 +44,7 @@ set_path() {
 path_list() {
 	case "$sh_opt" in
 	s)
-		echo "$@" | paste ' ' :
+		echo "$@" | tr ' ' :
 		;;
 	c|z)
 		echo "$@"
@@ -73,15 +73,18 @@ os=$(uname -s)
 machine=$(uname -m)
 dist=$(distribution)
 # shellcheck disable=SC2046
-homes=$(find_dirs $(zip_compat "
-	$HOME/bin/host/$host
-	$HOME/bin/arch/$os/$machine
-	$HOME/bin/arch/$os
-	$HOME/bin/dist/$dist
-	$HOME/bin/shims
-	$HOME/bin/games
-	$HOME/bin
-"))
+homes=$(find_dirs $(zip_compat \
+	"$HOME"/bin/host/"$host" \
+	"$HOME"/bin/arch/"$os"/"$machine" \
+	"$HOME"/bin/arch/"$os" \
+	"$HOME"/bin/dist/"$dist" \
+	"$HOME"/bin/alternatives \
+	"$HOME"/bin/alternatives/asdf \
+	"$HOME"/bin/shims \
+	"$HOME"/bin/git \
+	"$HOME"/bin/games \
+	"$HOME"/bin \
+))
 
 if dumb id asdf; then
 	asdf_dir=~asdf/.asdf
@@ -89,22 +92,22 @@ if dumb id asdf; then
 else
 	asdf_dir=$HOME/.asdf
 fi
-langs=$(find_dirs "
-	$HOME/lib/ruby/misc/bin
-	$HOME/.cargo/bin
-	$HOME/.go/bin
-	$HOME/.local/bin
-	$asdf_dir/bin
-	$asdf_dir/shims
-")
+langs=$(find_dirs \
+	"$HOME"/lib/ruby/misc/bin \
+	"$HOME"/.cargo/bin \
+	"$HOME"/.go/bin \
+	"$HOME"/.local/bin \
+	"$asdf_dir"/bin \
+	"$asdf_dir"/shims \
+)
 
-userlands=$(find_dirs "
-	/usr/local/bin
-	/snap/bin
-	/usr/pkg/bin
-	/usr/bin
-	/bin
-")
+userlands=$(find_dirs \
+	/usr/local/bin \
+	/snap/bin \
+	/usr/pkg/bin \
+	/usr/bin \
+	/bin \
+)
 
 # shellcheck disable=SC2046,SC2086
 sbin=$(find_dirs $(replace_bin sbin $homes $userlands))
