@@ -1,0 +1,25 @@
+#!/bin/sh -Ceu
+
+readonly main=$(basename "$0")
+
+subs=
+flags=
+for i in "$@"; do
+	case $i in
+	all)
+		subs="$subs $(sub-command-all "$main")"
+		;;
+	-*)
+		flags="$flags $i"
+		;;
+	*)
+		subs="$subs $i"
+		;;
+	esac
+done
+
+PATH="$(dirname "$0")/$main.d:$PATH"
+for sub in $subs; do
+	# shellcheck disable=SC2086
+	sub-command "$main" "$sub" $flags
+done

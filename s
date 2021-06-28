@@ -1,9 +1,6 @@
-#!/bin/sh -eu
+#!/bin/sh -Ceu
 
-readonly query="${1:-}"
-flags='--select-1 --height 0 --layout reverse'
-if [ -n "$query" ]; then
-	flags="$flags --query $query"
+if [ -z "${COMMAND_SELECTOR:-}" ]; then
+	eval "$(env-config selector)"
 fi
-# shellcheck disable=SC2086
-exec sk $flags
+exec "$COMMAND_SELECTOR" "$@"

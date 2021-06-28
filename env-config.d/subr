@@ -1,0 +1,15 @@
+environ() {
+	set-environ-command -"$sh_opt" "$@"
+}
+search_for_environ() {
+	name=$1
+	shift
+	candidates=$*
+	# shellcheck disable=SC2086
+	environ "$name" "$(command-available-first $candidates)"
+}
+
+# shellcheck disable=SC2046
+set -- $(shell-style-option "$@")
+sh_opt=$1
+shift

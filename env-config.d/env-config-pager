@@ -1,15 +1,8 @@
-#!/bin/sh -e
+#!/bin/sh -Ceu
 
-# shellcheck disable=SC2046
-set -- $(shell-style-option "$@")
-sh_opt=$1
-shift
+# shellcheck disable=SC1090
+. "$(dirname "$0")/subr"
 
-environ() {
-	set-environ-command -"$sh_opt" "$@"
-}
-
-editors='ex ed editor'
 if [ "$TERM" = dumb ]; then
 	if [ -n "$INSIDE_EMACS" ]; then
 		pagers='cat'
@@ -18,13 +11,13 @@ if [ "$TERM" = dumb ]; then
 	fi
 else
 	pagers='less more pager'
-	editors="vi $editors"
 fi
+# shellcheck disable=SC2086
+search_for_environ PAGER $pagers
 
 # shellcheck disable=SC2086
-pager=$(command-available-first $pagers)
-environ PAGER "$pager"
-if [ "$pager" = less ]; then
+eval "$(sh_opt=s search_for_environ PAGER $pagers)"
+if [ "$PAGER" = less ]; then
 	less_paging=-inRXaj5
 	environ LESS_PAGING "$less_paging"
 	environ LESS "$less_paging -F"
@@ -46,13 +39,3 @@ if [ "$pager" = less ]; then
 	environ LESS_TERMCAP_us "$underline$cyan"
 	environ LESS_TERMCAP_ue "$reset_underline$reset"
 fi
-
-decorators=bat
-environ DECORATOR "$(command-available-first "$decorators")"
-
-editor=$(command-available-first "$editors")
-environ EDITOR "$editor"
-
-lists='exa ls'
-list=$(command-available-first "$lists")
-environ LIST "$list"

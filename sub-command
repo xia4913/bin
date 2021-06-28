@@ -1,0 +1,36 @@
+#!/bin/sh -Ceu
+
+while getopts ev f; do
+	case $f in
+	e)
+		show_mode=true
+		;;
+	v)
+		is_verbose=true
+		;;
+	\*)
+		echo "unknown option: $1"
+		exit 1
+		;;
+	esac
+done
+shift $(( OPTIND - 1 ))
+
+readonly main=$1
+readonly sub=$2
+readonly name="$main-$sub"
+shift 2
+
+if is-command-available "$name"; then
+	if [ "${show_mode:-}" = true ]; then
+		echo "$name" "$@"
+	else
+		if [ "${is_verbose:-}" = true ]; then
+			set -x
+		fi
+		exec "$name" "$@"
+	fi
+else
+	echo "$main: '$sub' is not found."
+	exit 1
+fi

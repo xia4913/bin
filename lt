@@ -1,17 +1,19 @@
-#!/bin/sh -eu
+#!/bin/sh -Ceu
 
 (
-	flags=
-	case $(list-prog) in
+	if [ -z "${COMMAND_LS:-}" ]; then
+		eval "$(env-config ls)"
+	fi
+
+	case $COMMAND_LS in
 	exa)
 		flags=-lrsnew
 		;;
 	*)
 		flags=-got
-		;;
 	esac
 	# shellcheck disable=SC2086
-	unbuffer l $flags "$@"
+	unbuffer l ${flags:-} "$@"
 ) | sed '
 	/^total/d
 	/:$/!s/^\([^ ]* *\)\{3\}//

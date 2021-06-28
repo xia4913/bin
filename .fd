@@ -1,9 +1,7 @@
-#!/bin/sh -eu
+#!/bin/sh -Ceu
 
-fd_command=$(command-available-first fd fdfind)
-if [ -z "$fd_command" ]; then
-	echo "command not found: fd"
-	exit 127
+if [ -z "$COMMAND_FD" ]; then
+	eval "$(env-config fd)"
 fi
 
 flags=
@@ -13,4 +11,4 @@ elif [ -z "${LS_COLORS:-}" ]; then
 	eval "$(dircolors)"
 fi
 # shellcheck disable=SC2086
-exec "$fd_command" $flags "$@"
+exec "$COMMAND_FD" $flags "$@"
