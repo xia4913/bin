@@ -1,0 +1,2 @@
+#!/bin/sh -Ceu
+exec xargs "${0##*/x}" "$0"

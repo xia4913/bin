@@ -1,0 +1,29 @@
+#!/bin/sh -Ceu
+
+rgb() {
+	r=${1:-0}
+	g=${2:-0}
+	b=${3:-0}
+	printf "\\e[48;2;%d;%d;%dm" "$r" "$g" "$b"
+}
+reset_color() {
+	printf '\e[0m'
+}
+
+cols=$(tput cols)
+half=$(( cols / 2 ))
+for i in $(seq 0 $(( half - 1 ))); do
+	r=$(( 255 - 255 * i / half ))
+	g=$(( 255 - r ))
+	rgb "$r" "$g" 0
+	printf ' '
+done
+half=$(( cols - half ))
+for i in $(seq 1 "$half"); do
+	b=$(( 255 * i / half ))
+	g=$(( 255 - b ))
+	rgb 0 "$g" "$b"
+	printf ' '
+done
+reset_color
+echo

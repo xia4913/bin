@@ -10,14 +10,12 @@ if [ -n "${XDG_RUNTIME_DIR:-}" ]; then
 	fi
 	run_dir="$XDG_RUNTIME_DIR"
 else
-	# shellcheck disable=SC2174
-	mkdir -pm 700 "$run_dir"
+	(umask 077; mkdir -p "$run_dir")
 fi
 
 dir=$run_dir
 if [ -n "$name" ]; then
 	dir=$dir/$name
-	# shellcheck disable=SC2174
-	mkdir -pm 700 "$dir"
+	(umask 077; mkdir -p "$dir")
 fi
 echo "$dir"

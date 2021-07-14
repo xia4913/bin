@@ -1,0 +1,25 @@
+#!/bin/sh -Ceu
+
+pom "$@" | awk '
+	function moon(s) {
+		if (s ~ /New/) {
+			return "🌑";
+		} else if (s ~ /Crescent/) {
+			return s ~ /Waxing/ ? "🌒" : "🌘";
+		} else if (s ~ /Quarter/) {
+			return s ~ /First/ ? "🌓" : "🌗";
+		} else if (s ~ /Gibbous/) {
+			return s ~ /Waxing/ ? "🌔" : "🌖";
+		} else if (s ~ /Full/) {
+			return "🌕";
+		}
+	}
+	function phase(s) {
+		if (match($0, /([0-9]+)%/, a)) {
+			return sprintf("%d%%", a[1]);
+		}
+	}
+	{
+		print(moon($0), phase($0));
+	}
+'

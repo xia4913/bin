@@ -1,0 +1,12 @@
+#!/bin/sh -Ceu
+
+path=$(readlink -f "$1")
+#path=$(realpath "$1")
+
+case $(basename "$0") in
+progdir)
+    exec dirname "$path"
+    ;;
+progname)
+    exec basename "$path"
+esac

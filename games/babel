@@ -1,0 +1,81 @@
+#!/bin/sh -Ceu
+
+cyclic=false
+sep='  '
+wait=0.4
+while getopts cd:w: f; do
+	case "$f" in
+	c)
+		cyclic=true
+		;;
+	d)
+		sep=$OPTARG
+		;;
+	w)
+		wait=$OPTARG
+		;;
+	\?)
+		exit 1
+	esac
+done
+shift $(( OPTIND - 1 ))
+
+text=$(stdin-or-args "$@")
+if [ -z "$text" ]; then
+	text=$(basename "$0" | tr '[:lower:]' '[:upper:]')
+fi
+text=$(echo "$text" | to-space)
+
+set_tty() {
+	stty_save=$(stty -g)
+	stty -echo
+	tput civis
+	tput setaf 1
+	#tput bold
+}
+reset_tty() {
+	stty "$stty_save"
+	tput cnorm
+	tput sgr0
+}
+
+trap 'reset_tty; echo; exit' HUP INT QUIT TERM
+set_tty
+
+s="$text$sep"
+len=${#s}
+set +e
+(
+	set -e
+	multiple=$(( $(getconf PIPE_BUF /) / len ))
+	while :; do
+		printf "$s"'%.s' $(seq "$multiple")
+	done
+) | (
+	set -e
+	if [ "$cyclic" = false ]; then
+		indent=$(echo "$sep" | head -c 1)
+		is_even=0
+	fi
+	while :; do
+		read_bytes=$(tput cols)
+		if [ "$cyclic" = false ]; then
+			if [ "$is_even" = 1 ]; then
+				printf '%s' "$indent"
+				read_bytes=$(( read_bytes - 1 ))
+			fi
+			is_even=$(( ! is_even ))
+		fi
+		mod=$(( read_bytes % len ))
+		if [ "$cyclic" = true ] && [ "$mod" -eq 0 ]; then
+			read_bytes=$(( read_bytes - 1 ))			# make fraaction
+		fi
+		head -c "$read_bytes"
+		if [ "$cyclic" = false ]; then
+			head -c $(( len - read_bytes % len )) >/dev/null	# jump to head of next sequence
+		fi
+		sleep "$wait"
+		echo
+	done
+)
+reset_tty

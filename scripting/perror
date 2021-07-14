@@ -1,0 +1,19 @@
+#!/bin/sh -Ceu
+
+status=$1
+command=${2:-}
+arg=${3:-}
+
+error="$(errno "$status" | sed 's/^[A-Z]* [0-9]* //')"
+
+pre=
+if [ -n "$command" ]; then
+	pre="$command: "
+fi
+
+post=
+if [ -n "$arg" ]; then
+	post=": $arg"
+fi
+
+echo "$pre$error$post"

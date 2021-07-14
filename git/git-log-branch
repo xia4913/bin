@@ -3,9 +3,5 @@
 git-error-unless-inside
 if ! git-is-main-branch; then
 	parent=$(git-parent-commit)
-	if [ -n "$parent" ]; then
-		flags="$parent.."
-	fi
 fi
-# shellcheck disable=SC2086
-exec git log ${flags:-} "$@"
+exec git log ${parent:+"$parent"..} "$@"

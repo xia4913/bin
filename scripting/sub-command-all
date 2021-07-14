@@ -1,0 +1,7 @@
+#!/bin/sh -Ceu
+
+readonly main=$1
+readonly dir="$(progdir "$(command -v "$main")")/$main.d"
+readonly prefix="$main-"
+
+(cd "$dir"; find . -name "$prefix*") | sed "s|^\\./$prefix||" | sort

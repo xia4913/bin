@@ -1,0 +1,2 @@
+#!/bin/sh -Ceu
+exec l -1 "$@"

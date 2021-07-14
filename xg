@@ -1,2 +1,0 @@
-#!/bin/sh -Ceu
-exec xargs "$(basename "$0" | sed 's/^x//')" "$@"

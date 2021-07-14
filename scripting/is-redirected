@@ -1,0 +1,18 @@
+#!/bin/sh -Ceu
+
+fd() {
+	case $1 in
+	stdin)
+		echo 0
+		;;
+	stdout)
+		echo 1
+		;;
+	stderr)
+		echo 2
+		;;
+	*)
+		echo "$1"
+	esac
+}
+exec [ ! -t "$(fd "${1:-0}")" ]

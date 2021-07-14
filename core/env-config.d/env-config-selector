@@ -1,5 +1,5 @@
 #!/bin/sh -Ceu
 
 # shellcheck disable=SC1090
-. "$(dirname "$0")/subr"
+. "$(progdir "$0")/subr"
 search_for_environ COMMAND_SELECTOR .sk sk

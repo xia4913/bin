@@ -1,0 +1,16 @@
+#!/bin/sh -Ceu
+
+optstring=$1
+shift
+#flags=
+while getopts :"$optstring" f ; do
+	case "$f" in
+	\?)
+		#flags="$flags $1"
+		;;
+	*)
+		;;
+	esac
+done
+shift $(( OPTIND - 1 ))
+echo "$@"

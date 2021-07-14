@@ -1,6 +1,6 @@
 #!/bin/sh -Ceu
 
-readonly main=$(basename "$0")
+readonly main=$(progname "$0")
 
 subs=
 flags=
@@ -18,7 +18,7 @@ for i in "$@"; do
 	esac
 done
 
-PATH="$(dirname "$0")/$main.d:$PATH"
+PATH=$(progdir "$0")/$main.d:$PATH
 for sub in $subs; do
 	# shellcheck disable=SC2086
 	sub-command "$main" "$sub" $flags

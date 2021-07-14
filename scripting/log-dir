@@ -1,0 +1,10 @@
+#!/bin/sh -Ceu
+
+name=${1:-}
+dir=$HOME/log
+(umask 077; mkdir -p "$dir")
+if [ -n "$name" ]; then
+	dir="$dir/$name"
+	(umask 077; mkdir -p "$dir")
+fi
+echo "$dir"
