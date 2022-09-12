@@ -1,2 +1,0 @@
-#!/bin/sh -Ceu
-exec sk --select-1 --height 0 --layout reverse "$@"

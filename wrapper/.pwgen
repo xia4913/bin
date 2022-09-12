@@ -1,0 +1,2 @@
+#!/bin/sh -Ceu
+pwgen -1B 16

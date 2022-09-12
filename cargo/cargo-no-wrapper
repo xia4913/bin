@@ -1,0 +1,21 @@
+#!/bin/sh -Ceu
+
+sub=no-wrapper
+
+if [ "${1:-}" = "$sub" ]; then
+  shift
+fi
+subsub=${1:-}
+
+case $subsub in
+''|-*)
+  cat <<EOF
+Invoke subcommand without build.rustc-wrapper settings.
+
+USAGE:
+    cargo $sub <SUBCOMMAND> [SUBCOMMAND-ARGS]
+EOF
+  ;;
+*)
+  RUSTC_WRAPPER='' cargo "$@"
+esac

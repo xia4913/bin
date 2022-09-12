@@ -1,2 +1,2 @@
 #!/bin/sh -Ceu
-exec git rebase --abort
+git rebase --abort

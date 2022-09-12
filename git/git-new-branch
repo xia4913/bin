@@ -1,4 +1,4 @@
 #!/bin/sh -Ceu
 
-readonly name="$1"
+name="$1"
 git checkout -b "$name" && git commit --allow-empty -m "init $name"

@@ -1,0 +1,2 @@
+#!/bin/sh -Ceu
+LS_COLORS=${LS_COLORS:-} fd -uu --follow "$@"

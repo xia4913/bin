@@ -1,0 +1,25 @@
+#!/bin/sh -Ceu
+
+sub=error
+
+if [ "${1:-}" = "$sub" ]; then
+    shift
+fi
+
+if [ $# -ne 1 ]; then
+    cat <<EOF
+Print cargo formatted error message.
+
+USAGE:
+    cargo $sub <VALUE>
+EOF
+    exit
+fi
+
+key=Error
+value=$1
+
+tput setaf 1; tput bold
+printf %12s "$key"
+tput sgr0
+echo " $value"

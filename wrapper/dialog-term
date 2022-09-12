@@ -1,0 +1,2 @@
+#!/bin/sh -Ceu
+SKIM_DEFAULT_OPTIONS=--no-height term --class dialog "$@"

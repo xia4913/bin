@@ -1,7 +1,0 @@
-#!/bin/sh -Ceu
-
-if [ -z "${TMPDIR:-}" ]; then
-	TMPDIR=/tmp/$(whoami)/tmp
-fi
-(umask 077; mkdir -p "$TMPDIR")
-echo "$TMPDIR"

@@ -1,5 +1,5 @@
 #!/bin/sh -Ceu
 
 git-error-unless-inside
-readonly top="$(git-top)"
-exec realpath --relative-to="$top" "$PWD"
+top="$(git-top)"
+realpath --relative-to="$top" "$PWD"

@@ -21,7 +21,7 @@ done
 shift $(( OPTIND - 1 ))
 
 if [ -z "${sh_opt:-}" ]; then
-	case $(basename "$SHELL") in
+	case $(progname -r "$SHELL") in
 	csh|tcsh)
 		sh_opt=c
 		;;

@@ -1,0 +1,2 @@
+#!/bin/sh -Ceu
+new-window -q -T vt100 -- ssh1 "$@"

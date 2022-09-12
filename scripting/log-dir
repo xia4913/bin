@@ -1,10 +1,18 @@
 #!/bin/sh -Ceu
 
 name=${1:-}
-dir=$HOME/log
-(umask 077; mkdir -p "$dir")
+
+if [ -n "${XDG_RUNTIME_DIR:-}" ]; then
+	dir=$XDG_RUNTIME_DIR/log
+elif [ -n "${TMPDIR:-}" ]; then
+	dir=$TMPDIR/log
+else
+	dir=$HOME/log
+fi
 if [ -n "$name" ]; then
 	dir="$dir/$name"
-	(umask 077; mkdir -p "$dir")
 fi
+
+umask 077
+mkdir -p "$dir"
 echo "$dir"

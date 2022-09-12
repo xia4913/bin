@@ -1,6 +1,6 @@
 #!/bin/sh -Ceu
 
-fd() {
+fileno() {
 	case $1 in
 	stdin)
 		echo 0
@@ -15,4 +15,4 @@ fd() {
 		echo "$1"
 	esac
 }
-exec [ ! -t "$(fd "${1:-0}")" ]
+[ ! -t "$(fileno "${1:-0}")" ]

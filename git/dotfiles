@@ -1,2 +1,2 @@
 #!/bin/sh -Ceu
-GIT_DIR="$HOME"/.dotfiles.git GIT_WORK_TREE="$HOME" exec git "$@"
+GIT_DIR="$HOME"/.dotfiles.git GIT_WORK_TREE="$HOME" git "$@"

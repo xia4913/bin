@@ -3,4 +3,4 @@
 if [ -n "$1" ]; then
 	set -- --points-at "$1"
 fi
-git-error-unless-inside && exec git branch --format '%(refname:short)' "$@"
+git-error-unless-inside && git branch --format '%(refname:short)' "$@"

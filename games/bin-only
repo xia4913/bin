@@ -1,0 +1,2 @@
+#!/bin/sh -Ceu
+g -v '/$' "$@" | gf bin/

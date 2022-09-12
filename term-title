@@ -1,0 +1,12 @@
+#!/bin/sh -Ceu
+
+str()
+{
+	if ! [ -t 0 ]; then
+		cat
+	else
+		echo "$@"
+	fi
+}
+# shellcheck disable=SC3037
+echo -ne "\\033]0;$(str "$@")\\007"

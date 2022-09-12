@@ -11,8 +11,8 @@ if [ -z "$sentinels" ]; then
 	fi
 fi
 for dir in $(dseq); do
+	# $sentinel may contain wildcards
 	for sentinel in $sentinels; do
-		# $sentinel may contain wildcards
 		# shellcheck disable=SC2086
 		if dumb ls "$dir"/$sentinel; then
 			echo "$dir"

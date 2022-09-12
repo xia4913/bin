@@ -1,0 +1,10 @@
+#!/bin/sh -Ceu
+
+case $(progname -r "$0") in
+gf)
+	set -- -F "$@"
+	;;
+gfw)
+	set -- -Fw "$@"
+esac
+.rg "$@" | p

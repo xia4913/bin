@@ -1,0 +1,19 @@
+#!/bin/sh -Ceu
+
+if [ $# -eq 1 ] && [ -d "$1" ]; then
+	unbuffer l "$@" | "$PAGER"
+	exit
+fi
+if is-redirected stdout; then
+	cat "$@"
+	exit
+fi
+if is-redirected stdin; then
+	"$PAGER" "$@"
+	exit
+fi
+
+if [ -n "${PAGING:-}" ]; then
+	set -- --paging="$PAGING" "$@"
+fi
+bat "$@"

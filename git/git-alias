@@ -1,5 +1,10 @@
 #!/bin/sh -Ceu
 
-readonly re='^alias\.'
-readonly tab="$(printf '%b' '\t')"
-git config --get-regexp "$re" | sed 's/'"$re"'//; s/ /\t/' | column -ts"$tab"
+re_prefix='^alias\.'
+re_names=
+if [ $# -ge 1 ]; then
+  re_names=$(grex --capture-groups --no-start-anchor "$@")
+fi
+tab="$(printf '%b' '\t')"
+git config --get-regexp "$re_prefix$re_names" | \
+  sed 's/'"$re_prefix"'//; s/ /\t/' | column -ts "$tab"

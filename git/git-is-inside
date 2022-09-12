@@ -1,2 +1,2 @@
 #/bin/sh -Ceu
-exec dumb git-error-unless-inside
+dumb git-error-unless-inside

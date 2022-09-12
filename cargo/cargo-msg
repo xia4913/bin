@@ -1,0 +1,25 @@
+#!/bin/sh -Ceu
+
+sub=msg
+
+if [ "${1:-}" = "$sub" ]; then
+    shift
+fi
+
+if [ $# -ne 2 ]; then
+    cat <<EOF
+Print cargo formatted message.
+
+USAGE:
+    cargo $sub <KEY> <VALUE>
+EOF
+    exit
+fi
+
+key=$1
+value=$2
+
+tput setaf 2; tput bold
+printf %12s "$key"
+tput sgr0
+echo " $value"

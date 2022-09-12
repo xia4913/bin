@@ -1,0 +1,6 @@
+#!/bin/sh -Ceu
+
+if [ $# -eq 0 ]; then
+  set -- .
+fi
+df -h "$@"

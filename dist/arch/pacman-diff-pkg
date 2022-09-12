@@ -1,0 +1,8 @@
+#!/bin/sh -Ceu
+
+file=$1
+
+pacman -Qo "$file" | (
+  read -r normalized _is _owned _by target _version
+  paccat "$target" -- "$normalized" | .diff - "$file"
+)

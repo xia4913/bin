@@ -1,2 +1,2 @@
 #!/bin/sh -Ceu
-git-error-unless-inside && exec [ "$(git-current-branch)" = "$(git-parent-branch)" ]
+git-error-unless-inside && [ "$(git-current-branch)" = "$(git-parent-branch)" ]

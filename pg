@@ -1,14 +1,7 @@
 #!/bin/sh -Ceu
 
-time_column=$(
-	if dumb ps -o start_time r; then
-		echo start_time
-	else
-		echo time
-	fi
-)
-
-ps_args="-o ppid,pid,stat,tname,$time_column,command"
+time_column=bsdtime,start_time
+ps_args="-o ppid,pid,tname,stat,$time_column,command"
 if dumb ps --sort pid r; then
 	ps_args="$ps_args --sort uid,ppid,$time_column"
 fi
@@ -16,7 +9,7 @@ fi
 pgrep_args=$*
 if [ -z "$pgrep_args" ]; then
 	if [ -n "$SHELL" ]; then
-		pgrep_args="$pgrep_args -x $(basename "$SHELL")"
+		pgrep_args="$pgrep_args -x $(progname -r "$SHELL")"
 	fi
 	if [ -n "$USER" ]; then
 		pgrep_args="$pgrep_args -U $USER"
@@ -24,7 +17,7 @@ if [ -z "$pgrep_args" ]; then
 else
 	ps_args="-o user $ps_args"
 fi
-case $(basename "$0") in
+case $(progname -r "$0") in
 pgf)
 	pgrep_args="-x $pgrep_args"
 esac

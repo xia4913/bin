@@ -1,0 +1,6 @@
+#!/bin/sh -Ceu
+
+if ! is-color; then
+	set -- --color=never "$@"
+fi
+exa -aF "$@"

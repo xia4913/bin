@@ -22,7 +22,7 @@ shift $(( OPTIND - 1 ))
 
 text=$(stdin-or-args "$@")
 if [ -z "$text" ]; then
-	text=$(basename "$0" | tr '[:lower:]' '[:upper:]')
+	text=$(progname -r "$0" | tr '[:lower:]' '[:upper:]')
 fi
 text=$(echo "$text" | to-space)
 
@@ -68,11 +68,13 @@ set +e
 		fi
 		mod=$(( read_bytes % len ))
 		if [ "$cyclic" = true ] && [ "$mod" -eq 0 ]; then
-			read_bytes=$(( read_bytes - 1 ))			# make fraaction
+			# make staggered
+			read_bytes=$(( read_bytes - 1 ))
 		fi
 		head -c "$read_bytes"
 		if [ "$cyclic" = false ]; then
-			head -c $(( len - read_bytes % len )) >/dev/null	# jump to head of next sequence
+			# skip to head of next sequence
+			head -c $(( len - read_bytes % len )) >/dev/null
 		fi
 		sleep "$wait"
 		echo

@@ -1,0 +1,35 @@
+#!/usr/bin/env ruby
+
+NUMBER_FORMAT = '%4s  '.freeze
+PADDING = (NUMBER_FORMAT % nil).freeze
+CONTROL_CHARS = %w(
+  NUL SOH STX ETX EOT ENQ ACK BEL
+  BS  HT  LF  VT  FF  CR  SO  SI
+  DLE DC1 DC2 DC3 DC4 NIK SYN ETB
+  CAN EM  SUB ESC FS  GS  RS  US
+).freeze
+
+def visualize(line)
+  line.force_encoding('UTF-8').chars.map do |c|
+    code = c.ord
+    if code < CONTROL_CHARS.length
+      '[%s]' % CONTROL_CHARS[code]
+    else
+      c
+    end
+  end.join
+end
+
+def print_line(line, number)
+  printf(NUMBER_FORMAT, number)
+  puts(visualize(line))
+  line.bytes.map{ '%02x' % _1 }.
+       each_slice(8).map{ _1.join(' ')}.
+       each_slice(2).map{ _1.join('  ' )}.
+       each do |s|
+    print(PADDING)
+    puts(s)
+  end
+end
+
+ARGF.each.with_index(1).map(&method(:print_line))

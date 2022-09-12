@@ -1,0 +1,2 @@
+#!/bin/sh -Ceu
+dig +noall +answer "$@"

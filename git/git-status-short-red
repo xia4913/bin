@@ -1,0 +1,2 @@
+#!/bin/sh -Ceu
+git s "$@" | g --color=never '\[31m'

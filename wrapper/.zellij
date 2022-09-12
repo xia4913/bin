@@ -1,0 +1,9 @@
+#!/bin/sh -Ceu
+
+# shellcheck disable=SC2124
+command="zellij $@"
+if [ -n "${WAYLAND_DISPLAY:-}" ] || [ -n "${DISPLAY:-}" ]; then
+	command="term -e $command"
+fi
+# shellcheck disable=SC2086
+$command

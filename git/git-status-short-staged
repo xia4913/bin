@@ -1,2 +1,2 @@
 #!/bin/sh -Ceu
-git s "$@" | g --color=never '^[^ ]'
+git s "$@" | g --color=never '^\x1b\[3.m[^ ]'

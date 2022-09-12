@@ -1,2 +1,2 @@
 #!/bin/sh -Ceu
-exec git rebase --continue
+git rebase --continue

@@ -1,0 +1,2 @@
+#!/bin/sh -Ceu
+xargs -r -I {} dialog-term -e sh -c "$@"

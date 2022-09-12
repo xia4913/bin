@@ -1,2 +1,0 @@
-#!/bin/sh -Ceu
-exec awk "{ print $(range "$@" | xargs -n1 -I{} echo \${}, | xargs) \"\"; }"

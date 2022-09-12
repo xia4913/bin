@@ -4,4 +4,4 @@ git-error-unless-inside
 if ! git-is-main-branch; then
 	parent=$(git-parent-commit)
 fi
-exec git log ${parent:+"$parent"..} "$@"
+git log ${parent:+"$parent"..} "$@"

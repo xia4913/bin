@@ -1,5 +1,0 @@
-#!/bin/sh -Ceu
-
-ext=$1
-shift
-exec f "\\.$ext\$" "$@"

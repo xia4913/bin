@@ -3,5 +3,5 @@
 git-error-unless-inside
 parent="$(git-parent-commit)"
 if [ -n "$parent" ]; then
-	exec git-branch-name "$parent"
+	git-branch-name "$parent"
 fi

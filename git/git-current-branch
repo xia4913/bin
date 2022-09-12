@@ -1,2 +1,2 @@
 #!/bin/sh -Ceu
-exec git branch --show-current
+git branch --show-current

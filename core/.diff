@@ -1,6 +1,0 @@
-#!/bin/sh -Ceu
-
-if [ -z "${COMMAND_DIFF:-}" ]; then
-	eval "$(env-config diff)"
-fi
-exec "$COMMAND_DIFF" "$@"

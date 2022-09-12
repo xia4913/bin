@@ -1,7 +1,7 @@
 #!/bin/sh -Ceu
 
 if is-redirected stdin; then
-	exec cat
+	cat
 else
-	exec echo "$@"
+	echo "$@"
 fi

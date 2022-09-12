@@ -1,0 +1,59 @@
+#!/bin/sh -Ceu
+
+sub=tmp
+
+if [ "${1:-}" = "$sub" ]; then
+    shift
+fi
+subsub=${1:-}
+
+target="target-$sub"
+prefix=target-
+found=false
+
+case $subsub in
+''|-*)
+    cat <<EOF
+Invoke another subcommand with the target directory in \$TMPDIR.
+
+USAGE:
+    cargo $sub <SUBCOMMAND> [SUBCOMMAND-ARGS]
+EOF
+    exit
+    ;;
+esac
+
+if [ -h "$target" ]; then
+    tmp=$(readlink "$target")
+    if [ -e "$tmp" ]; then
+        found=true
+    else
+        rm "$target"
+    fi
+elif [ -e "$target" ]; then
+    cargo-error "$target is not symlink."
+    exit 1
+fi
+
+case $subsub in
+clean)
+    if [ "$found" = false ]; then
+        exit
+    fi
+    case $tmp in
+    $TMPDIR/$prefix*)
+        cargo-msg Clean "$tmp"
+        rm -rf "$tmp"
+        cargo-msg Clean "$target"
+        rm "$target"
+        ;;
+    esac
+    ;;
+*)
+    if [ "$found" = false ]; then
+        tmp=$(mktemp -d --tmpdir "$prefix"XXXXXXXXXX)
+        cargo-msg Symlink "$target -> $tmp"
+        ln -s "$tmp" "$target"
+    fi
+    CARGO_TARGET_DIR=$target cargo "$@"
+esac

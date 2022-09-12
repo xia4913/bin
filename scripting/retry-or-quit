@@ -1,0 +1,35 @@
+#!/bin/sh -Ceu
+
+quit_if_zero=false
+while getopts 0 f; do
+	case $f in
+	0)
+		quit_if_zero=true
+		;;
+	\?)
+		;;
+	esac
+done
+shift $(( OPTIND - 1 ))
+command=$*
+
+while :; do
+	set +e
+	sh -c "$command"
+	status=$?
+	set -e
+	if [ "$status" -eq 0 ]; then
+		if [ "$quit_if_zero" = true ]; then
+			break
+		fi
+	else
+		(
+			tput setaf 1
+			echo "returned $status exit status"
+			tput sgr0
+		) >&2
+	fi
+	if ! y-or-n-p 'retry or quit?' r q; then
+		break
+	fi
+done

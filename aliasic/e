@@ -1,0 +1,7 @@
+#!/bin/sh -Ceu
+
+if [ -z "${EDITOR:-}" ]; then
+  eval "$(env-config editor)"
+fi
+#"$EDITOR" "$@"
+exec "$EDITOR" "$@"

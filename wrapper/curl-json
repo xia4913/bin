@@ -1,0 +1,5 @@
+#!/bin/sh -Ceu
+curl -sS -X POST \
+  -H 'Content-Type: application/json' \
+  -H 'Accept: application/json' \
+  "$@"
