@@ -1,0 +1,25 @@
+#!/bin/sh -Ceu
+
+if [ -n "${TMPDIR:-}" ]; then
+	cd "$TMPDIR"
+fi
+
+profile=$(progname -r "$0" | sed 's/[^-]*-*//')
+if [ -z "$profile" ]; then
+	profile=nightly
+fi
+
+log=$(log-dir firefox/"$profile")/"$profile"
+opt="$HOME/opt/firefox"
+
+case $profile in
+beta|developer|nightly)
+	bin="$opt/channels/$profile/firefox"
+	;;
+*)
+	bin="$opt/sandbox/nightly-no-update/bin/firefox"
+esac
+
+set -x
+GDK_DPI_SCALE=0.5 MOZ_ENABLE_WAYLAND=1 MOZ_LOG_FILE="$log" \
+  ja "$bin" -P "$profile" "$@"

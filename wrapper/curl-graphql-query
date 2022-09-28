@@ -1,0 +1,12 @@
+#!/bin/sh -Ceu
+
+# pop last argument
+n=$#
+while [ $(( n -= 1 )) -gt 0 ]; do
+	set -- "$@" "$1"
+	shift
+done
+query=${1:-}
+shift
+
+curl-graphql "$@" "query{$query}"

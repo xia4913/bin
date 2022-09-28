@@ -1,0 +1,2 @@
+#!/bin/sh -Ceu
+ip -brief -4 address show scope global | choose -f '[ /]' 2

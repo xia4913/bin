@@ -1,0 +1,10 @@
+#!/bin/sh -Ceu
+
+case "${COLORTERM:-}" in
+truecolor|24bit)
+	true
+	;;
+*)
+	false
+	;;
+esac

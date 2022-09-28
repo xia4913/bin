@@ -1,0 +1,8 @@
+#!/bin/sh -Ceu
+
+name=google-chrome-stable
+if [ -n "${TMPDIR:-}" ]; then
+	cd "$TMPDIR"
+fi
+log=$(log-dir "$name")/$name.log
+GDK_DPI_SCALE=1.6 LANG=ja_JP.UTF-8 "$name" "$@" 2>>"$log"

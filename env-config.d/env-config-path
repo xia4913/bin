@@ -73,20 +73,22 @@ os=$(uname -s)
 machine=$(uname -m)
 dist=$(distribution)
 # shellcheck disable=SC2046
-homes=$(find_dirs $(zip_compat \
-	"$HOME"/bin/host/"$host" \
-	"$HOME"/bin/arch/"$os"/"$machine" \
-	"$HOME"/bin/arch/"$os" \
-	"$HOME"/bin/dist/"$dist" \
-	"$HOME"/bin/scripting \
-	"$HOME"/bin/aliasic \
-	"$HOME"/bin/shims \
-	"$HOME"/bin/wrapper \
-	"$HOME"/bin/dvtm \
-	"$HOME"/bin/git \
-	"$HOME"/bin/cargo \
-	"$HOME"/bin/games \
-	"$HOME"/bin \
+homes=$(find_dirs \
+	"$HOME"/tmp/bin \
+	$(zip_compat \
+		"$HOME"/bin/host/"$host" \
+		"$HOME"/bin/arch/"$os"/"$machine" \
+		"$HOME"/bin/arch/"$os" \
+		"$HOME"/bin/dist/"$dist" \
+		"$HOME"/bin/scripting \
+		"$HOME"/bin/aliasic \
+		"$HOME"/bin/shims \
+		"$HOME"/bin/wrapper \
+		"$HOME"/bin/dvtm \
+		"$HOME"/bin/git \
+		"$HOME"/bin/cargo \
+		"$HOME"/bin/games \
+		"$HOME"/bin \
 ))
 
 if dumb id asdf; then

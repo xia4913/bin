@@ -1,7 +1,5 @@
 #!/bin/sh -Ceu
 
-require-command alacritty
-
 if [ -n "$TMPDIR" ]; then
 	set -- --working-directory "$PWD" "$@"
 	cd "$TMPDIR"

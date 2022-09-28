@@ -10,10 +10,13 @@ query=${1:-}
 shift
 
 escape() {
-  echo "$@" | sed 's/\(["]\)/\\\1/g'
+  sed 's/\(["]\)/\\\1/g'
+}
+strip() {
+  sed 's/^\s*//' | sed -z 's/\n/ /g; s/ $//'
 }
 post_data() {
-  printf '{"query":"%s"}' "$(escape "$@")"
+  printf '{"query":"%s"}' "$(echo "$@" | strip | escape)"
 }
 
 curl-json "$@" -d "$(post_data "$query")"

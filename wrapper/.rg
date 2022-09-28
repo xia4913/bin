@@ -3,4 +3,4 @@
 if is-redirected stdin; then
 	set -- --no-line-number "$@"
 fi
-rg -ip "$@"
+rg --ignore-case --pretty --hidden "$@"

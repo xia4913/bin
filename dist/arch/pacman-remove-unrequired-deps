@@ -1,0 +1,13 @@
+#!/bin/sh -Ceu
+
+# tmp=$(mktemp --tmpdir "$(progname "$0")".XXXXXXXXXX)
+# trap 'rm "$tmp"' EXIT
+
+while :; do
+  list=$(pacman-unrequired-deps || :)
+  if [ -z "$list" ]; then
+    break
+  fi
+  # shellcheck disable=SC2086
+  x sudo pacman -Rus $list
+done
