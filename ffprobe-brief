@@ -1,0 +1,70 @@
+#!/bin/sh -Ceu
+
+glob_dir() {
+	paths=$*
+	for path in $paths; do
+		if [ -d "$path" ]; then
+			find "$path" -maxdepth 1 -type f | (
+				if [ "$path" = . ]; then
+					sed 's#^./##'
+				else
+					cat
+				fi
+			)
+		else
+			echo "$path"
+		fi
+	done
+}
+
+is_video() {
+	filename="$1"
+	file -b --mime-type "$filename" | grep -q ^video
+}
+
+info() {
+	filename="$1"
+	if is_video "$filename"; then
+		ffprobe -hide_banner "$filename" 2>&1 | awk '
+			BEGIN {
+				split("", r);
+			}
+			($1 == "Duration:") {
+				sub(/,$/, "", $2);
+				r["duration"] = $2;
+			}
+			($1 == "Stream" && /Video:/) {
+				if (match($0, / ([[:digit:]]+x[[:digit:]]+) /, a)) {
+					r["resolution"] = a[1];
+				}
+				if (match($0, /((\.|[[:digit:]])+) fps,/, a)) {
+					r["fps"] = a[1];
+				}
+				exit;
+			}
+			END {
+				print(r["duration"], r["fps"], r["resolution"]);
+			}
+'
+	fi | (
+		IFS=' ' read -r duration fps resolution
+		#command -p printf '%s %s %q\n' "${duration:--} ${resolution:--} $filename"
+		/usr/bin/printf '%s %s %s %q\n' \
+		 "${duration:--} ${resolution:--} ${fps:--} $filename"
+	)
+}
+
+paths=$*
+if [ -z "$paths" ]; then
+	paths=.
+fi
+
+for filename in $(glob_dir "$paths"); do
+	info "$filename"
+done | (
+	if isatty stdin; then
+		column -t
+	else
+		cat
+	fi
+)

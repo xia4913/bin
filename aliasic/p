@@ -4,11 +4,11 @@ if [ $# -eq 1 ] && [ -d "$1" ]; then
 	faketty l "$@" | "$PAGER"
 	exit
 fi
-if is-redirected stdout; then
+if ! isatty stdout; then
 	cat "$@"
 	exit
 fi
-if is-redirected stdin; then
+if ! isatty stdin; then
 	"$PAGER" "$@"
 	exit
 fi

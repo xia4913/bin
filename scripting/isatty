@@ -15,4 +15,4 @@ fileno() {
 		echo "$1"
 	esac
 }
-[ ! -t "$(fileno "${1:-0}")" ]
+[ -t "$(fileno "${1:-0}")" ]
