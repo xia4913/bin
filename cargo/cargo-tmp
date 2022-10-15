@@ -8,7 +8,7 @@ fi
 subsub=${1:-}
 
 target="target-$sub"
-prefix=target-
+tmp_prefix=target-
 found=false
 
 case $subsub in
@@ -37,11 +37,11 @@ fi
 
 case $subsub in
 clean)
-    if [ "$found" = false ]; then
+    if [ "$found" != true ]; then
         exit
     fi
     case $tmp in
-    $TMPDIR/$prefix*)
+    $TMPDIR/$tmp_prefix*)
         cargo-msg Clean "$tmp"
         rm -rf "$tmp"
         cargo-msg Clean "$target"
@@ -50,8 +50,8 @@ clean)
     esac
     ;;
 *)
-    if [ "$found" = false ]; then
-        tmp=$(mktemp -d --tmpdir "$prefix"XXXXXXXXXX)
+    if [ "$found" != true ]; then
+        tmp=$(mktemp -d --tmpdir "$tmp_prefix"XXXXXXXXXX)
         cargo-msg Symlink "$target -> $tmp"
         ln -s "$tmp" "$target"
     fi

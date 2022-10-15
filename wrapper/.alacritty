@@ -5,4 +5,7 @@ if [ -n "$TMPDIR" ]; then
 	cd "$TMPDIR"
 fi
 
-SHLVL='' LANG=ja_JP.UTF-8 LC_ALL='' alacritty "$@"
+unset SHLVL
+unset LANG LC_ALL
+unset ZELLIJ ZELLIJ_SESSION_NAME
+LC_CTYPE=ja_JP.UTF-8 alacritty "$@"

@@ -3,9 +3,7 @@
 unset SHLVL
 
 PATH=$HOME/bin/sway:$PATH
-if is-command-available systemctl; then
-	systemctl --user import-environment PATH
-fi
+systemctl --user import-environment PATH
 
 GTK_IM_MODULE=fcitx; export GTK_IM_MODULE
 QT_IM_MODULE=fcitx; export QT_IM_MODULE
