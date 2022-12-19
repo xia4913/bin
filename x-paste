@@ -1,8 +1,8 @@
 #!/bin/sh -Ceu
 
-if [ -n "$WAYLAND_DISPLAY" ]; then
+if [ -n "${WAYLAND_DISPLAY:-}" ]; then
 	wl-paste
-elif [ -n "$DISPLAY" ]; then
+elif [ -n "${DISPLAY:-}" ]; then
 	xsel -ob
 else
 	echo 'environment variable is not set.'

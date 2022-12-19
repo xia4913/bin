@@ -1,2 +1,2 @@
 #!/bin/sh -Ceu
-pwgen -1B 16
+pwgen -1B 16 "$@"

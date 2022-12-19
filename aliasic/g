@@ -1,10 +1,25 @@
 #!/bin/sh -Ceu
 
-case $(progname -r "$0") in
-gf)
-	set -- -F "$@"
-	;;
-gfw)
-	set -- -Fw "$@"
-esac
-.rg "$@" | p
+opt_files=false
+for i in $(progname -r "$0" | fold -1); do
+	case $i in
+	f)
+		set -- -F "$@"
+		;;
+	l)
+		set -- -l "$@"
+		opt_files=true
+		;;
+	s)
+		set -- -s "$@"
+		;;
+	w)
+		set -- -w "$@"
+	esac
+done
+
+if [ "$opt_files" = true ]; then
+	.rg --color=never "$@"
+else
+	.rg "$@" | p
+fi

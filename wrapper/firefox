@@ -21,6 +21,11 @@ beta|developer|nightly)
 	bin=$opt/sandbox/nightly-no-update/bin/firefox
 esac
 
+pre=$opt/pre/$profile
+if [ -x "$pre" ]; then
+	"$pre"
+fi
+
 set -x
 GDK_DPI_SCALE=0.5 MOZ_ENABLE_WAYLAND=1 MOZ_LOG_FILE="$log" \
   ja "$bin" -P "$profile" "$@"

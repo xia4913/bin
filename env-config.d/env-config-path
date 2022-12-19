@@ -4,17 +4,17 @@
 . "$(progdir "$0")/subr"
 
 find_dirs() {
-	r=
-	for i in "$@"; do
+	to-line "$@" | while read -r i; do
 		if [ -d "$i" ]; then
-			r="$r $i"
+			echo "$i"
 		fi
 	done
-	echo "$r"
+}
+unique_symlinks() {
+	xargs -r realpath | awk '!a[$0]++{print}'
 }
 zip_compat() {
-	# shellcheck disable=SC2048
-	for i in $*; do
+	to-line "$@" | while read -r i; do
 		echo "$i"
 		echo "$i"/compat
 	done
@@ -22,10 +22,10 @@ zip_compat() {
 replace_bin() {
 	dest=$1
 	shift
-	echo "$@" | tr ' ' '\n' | sed -n '/\/bin$/s#/bin$#/'"$dest"'#p'
+	to-line "$@" | sed -n '/\/bin$/s#/bin$#/'"$dest"'#p'
 }
 set_path() {
-	list=$*
+	list=$(path_list "$@")
 	if [ -n "$list" ]; then
 		# shellcheck disable=SC2154
 		case "$sh_opt" in
@@ -72,10 +72,8 @@ host=$(hostname -s)
 os=$(uname -s)
 machine=$(uname -m)
 dist=$(distribution)
-# shellcheck disable=SC2046
 homes=$(find_dirs \
-	"$HOME"/tmp/bin \
-	$(zip_compat \
+	"$(zip_compat \
 		"$HOME"/bin/host/"$host" \
 		"$HOME"/bin/arch/"$os"/"$machine" \
 		"$HOME"/bin/arch/"$os" \
@@ -84,12 +82,14 @@ homes=$(find_dirs \
 		"$HOME"/bin/aliasic \
 		"$HOME"/bin/shims \
 		"$HOME"/bin/wrapper \
-		"$HOME"/bin/dvtm \
 		"$HOME"/bin/git \
 		"$HOME"/bin/cargo \
+		"$HOME"/bin/zellij \
+		"$HOME"/bin/dvtm \
 		"$HOME"/bin/games \
 		"$HOME"/bin \
-))
+	)"
+)
 
 if dumb id asdf; then
 	asdf_dir=~asdf/.asdf
@@ -107,26 +107,21 @@ langs=$(find_dirs \
 	"$asdf_dir"/bin \
 	"$asdf_dir"/shims \
 )
-
-userlands=$(find_dirs \
-	/usr/local/bin \
-	/snap/bin \
-	/usr/pkg/bin \
-	/usr/bin \
-	/bin \
-)
-
+userlands='
+	/usr/local/bin
+	/snap/bin
+	/usr/pkg/bin
+	/usr/bin
+	/bin
+'
 extras=$(find_dirs \
     /opt/mincs/bin \
 )
 
-# shellcheck disable=SC2046,SC2086
-sbin=$(find_dirs $(replace_bin sbin $homes $userlands $extras))
-# shellcheck disable=SC2046,SC2086
-games=$(find_dirs $(replace_bin games $homes $userlands $extras))
-path="$homes $langs $userlands $extras $sbin $games"
+sbin=$(find_dirs "$(replace_bin sbin "$homes $userlands $extras")")
+games=$(find_dirs "$(replace_bin games "$homes $userlands $extras")")
+userlands=$(find_dirs "$userlands")
+path=$(echo "$homes $langs $extras $userlands $sbin $games" | \
+	unique_symlinks)
 
-# shellcheck disable=SC2046,SC2086
-games=$(find_dirs $(replace_bin games $homes $userlands))
-# shellcheck disable=SC2046,SC2086
-set_path $(path_list $path)
+set_path "$path"
