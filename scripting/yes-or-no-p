@@ -3,7 +3,7 @@
 prompt="${1:-?}"
 yes="${2:-yes}"
 no="${3:-no}"
-s=$(printf '%s (%s/%s) ' "$prompt" "$yes" "$no")
+s=$(printf '%s [%s/%s] ' "$prompt" "$yes" "$no")
 while :; do
 	printf %s "$s"
 	read -r answer

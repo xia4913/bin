@@ -1,19 +1,77 @@
 #!/bin/sh -Ceu
 
-prompt="${1:-?}"
-y="${2:-y}"
-n="${3:-n}"
-s=$(printf '%s (%s/%s) ' "$prompt" "$y" "$n")
+default=
+while getopts ny f; do
+	case $f in
+	n)
+		default=n
+		;;
+	y)
+		default=y
+		;;
+	*)
+		# NOTIMPLEMENTED
+		;;
+	esac
+done
+shift $(( OPTIND - 1 ))
+
+prompt=${1:-?}
+_y=${2:-y}
+_n=${3:-n}
+
+if [ "${#_y}" -ne 1 ] || [ "${#_n}" -ne 1 ]; then
+	echo "y and n must be single character." >&2
+	exit 64
+fi
+
+y=$(echo "$_y" | downcase)
+n=$(echo "$_n" | downcase)
+Y=$(echo "$_y" | upcase)
+N=$(echo "$_n" | upcase)
+
+label_y=$y
+label_n=$n
+case $default in
+y)
+	label_y=$Y
+	;;
+n)
+	label_n=$N
+	;;
+esac
+
+s=$(printf '%s [%s/%s] ' "$prompt" "$label_y" "$label_n")
+cr=$(printf "\x0d")
+ctrl_c=$(printf "\x03")
+
+value_y=0			# true(1) exit status
+value_n=1			# false(1) exit status
+case $default in
+y)
+	value_default=$value_y
+	;;
+n)
+	value_default=$value_n
+	;;
+esac
+
 while :; do
 	printf %s "$s"
 	answer=$(getch)
 	echo "$answer"
 	case $answer in
-	"$y")
-		exit 0
+	"$y"|"$Y")
+		exit "$value_y"
 		;;
-	"$n")
-		exit 1
+	"$n"|"$N")
+		exit "$value_n"
+		;;
+	"$cr")
+		[ -n "$value_default" ] && exit "$value_default"
+		;;
+	"$ctrl_c")
+		exit 130
 		;;
 	esac
 done
