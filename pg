@@ -9,7 +9,7 @@ fi
 pgrep_args=$*
 if [ -z "$pgrep_args" ]; then
 	if [ -n "$SHELL" ]; then
-		pgrep_args="$pgrep_args -x $(progname -r "$SHELL")"
+		pgrep_args="$pgrep_args -x $(basename "$SHELL")"
 	fi
 	if [ -n "$USER" ]; then
 		pgrep_args="$pgrep_args -U $USER"
@@ -17,7 +17,7 @@ if [ -z "$pgrep_args" ]; then
 else
 	ps_args="-o user $ps_args"
 fi
-case $(progname -r "$0") in
+case $(basename "$0") in
 pgf)
 	pgrep_args="-x $pgrep_args"
 esac

@@ -1,7 +1,7 @@
 #!/bin/sh -Ceu
 
 opt_files=false
-for i in $(progname -r "$0" | fold -1); do
+for i in $(basename "$0" | fold -1); do
 	case $i in
 	f)
 		set -- -F "$@"

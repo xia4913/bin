@@ -4,5 +4,13 @@ name=google-chrome-stable
 if [ -n "${TMPDIR:-}" ]; then
 	cd "$TMPDIR"
 fi
-log=$(log-dir "$name")/$name.log
-GDK_DPI_SCALE=1.6 LANG=ja_JP.UTF-8 "$name" "$@" 2>>"$log"
+
+if ! isatty; then
+	log=$(log-dir "$name")/$name.log
+	# shellcheck disable=SC2188
+	2>>"$log"
+fi
+
+set -x
+# ja "$name" --ozone-platform=wayland "$@"
+GDK_DPI_SCALE=1.6 ja "$name" "$@"

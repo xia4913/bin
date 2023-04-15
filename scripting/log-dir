@@ -2,13 +2,7 @@
 
 name=${1:-}
 
-if [ -n "${XDG_RUNTIME_DIR:-}" ]; then
-	dir=$XDG_RUNTIME_DIR/log
-elif [ -n "${TMPDIR:-}" ]; then
-	dir=$TMPDIR/log
-else
-	dir=$HOME/log
-fi
+dir=$HOME/tmp/log
 if [ -n "$name" ]; then
 	dir="$dir/$name"
 fi

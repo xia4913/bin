@@ -1,0 +1,19 @@
+#!/bin/sh -Ceu
+
+# shellcheck disable=SC1090
+. ~/.config/pacman/makepkg.conf
+
+if [ -z "${BUILDDIR:-}" ]; then
+  exit 0
+fi
+
+subdir=$(sub-dir "$0")
+file=$subdir/$PKGBASE
+if [ -f "$file" ]; then
+  build_root="$BUILDDIR/$PKGBASE"
+  if ! [ -d "$build_root" ]; then
+    x install -d "$build_root"
+  fi
+  # shellcheck disable=SC1090
+  . "$file"
+fi

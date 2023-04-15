@@ -22,7 +22,7 @@ shift $(( OPTIND - 1 ))
 
 text=$(stdin-or-args "$@")
 if [ -z "$text" ]; then
-	text=$(progname -r "$0" | tr '[:lower:]' '[:upper:]')
+	text=$(basename "$0" | tr '[:lower:]' '[:upper:]')
 fi
 text=$(echo "$text" | to-space)
 
@@ -53,13 +53,13 @@ set +e
 	done
 ) | (
 	set -e
-	if [ "$cyclic" = false ]; then
+	if [ "$cyclic" != true ]; then
 		indent=$(echo "$sep" | head -c 1)
 		is_even=0
 	fi
 	while :; do
 		read_bytes=$(tput cols)
-		if [ "$cyclic" = false ]; then
+		if [ "$cyclic" != true ]; then
 			if [ "$is_even" = 1 ]; then
 				printf '%s' "$indent"
 				read_bytes=$(( read_bytes - 1 ))
@@ -72,7 +72,7 @@ set +e
 			read_bytes=$(( read_bytes - 1 ))
 		fi
 		head -c "$read_bytes"
-		if [ "$cyclic" = false ]; then
+		if [ "$cyclic" != true ]; then
 			# skip to head of next sequence
 			head -c $(( len - read_bytes % len )) >/dev/null
 		fi

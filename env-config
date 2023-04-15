@@ -1,6 +1,6 @@
 #!/bin/sh -Ceu
 
-main="$(progname "$0")"
+main="$(basename "$0")"
 
 while getopts l f; do
 	case $f in

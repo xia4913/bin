@@ -1,0 +1,30 @@
+#!/bin/sh -Ceu
+
+umask 077
+
+run_dir=$XDG_RUNTIME_DIR/ssh/auth
+symlink=$run_dir/symlink
+if [ -h "$symlink" ]; then
+	target=$(readlink "$symlink")
+	if [ -S "$target" ]; then
+		echo "$symlink"
+		exit
+	fi
+	rm "$symlink"
+fi
+
+if [ -z "${SSH_CONNECTION:-}" ]; then
+	socket=$(mktemp -u "$run_dir/socket/$PPID.XXXXXXXXXX")
+	mkdir -p "$(dirname "$socket")"
+	eval "$(ssh-agent -a "$socket" | grep -v '^echo ')"
+fi
+
+if [ -z "${SSH_AUTH_SOCK:-}" ] || [ ! -S "$SSH_AUTH_SOCK" ]; then
+	exit
+fi
+
+if ! [ -d "$run_dir" ]; then
+	mkdir -p "$run_dir"
+fi
+ln -s "$SSH_AUTH_SOCK" "$symlink"
+echo "$symlink"

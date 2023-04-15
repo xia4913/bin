@@ -14,7 +14,7 @@ if [ "${has_line_option:-}" != true ]; then
 	set -- -n $(( lines - 2 )) "$@"
 fi
 
-case $(progname -r "$0") in
+case $(basename "$0") in
 h)
 	command='head'
 	;;

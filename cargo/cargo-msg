@@ -19,7 +19,9 @@ fi
 key=$1
 value=$2
 
-tput setaf 2; tput bold
-printf %12s "$key"
-tput sgr0
-echo " $value"
+(
+    tput setaf 2; tput bold
+    printf %12s "$key"
+    tput sgr0
+    echo " $value"
+) >&2

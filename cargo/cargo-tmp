@@ -7,7 +7,7 @@ if [ "${1:-}" = "$sub" ]; then
 fi
 subsub=${1:-}
 
-target="target-$sub"
+target=target-$sub
 tmp_prefix=target-
 found=false
 

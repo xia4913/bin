@@ -1,7 +1,7 @@
 #!/bin/sh -Ceu
 
 # shellcheck disable=SC1091
-. "$(progdir "$0")/subr"
+. "$(dirname "$0")/subr"
 
 if [ "$TERM" = dumb ]; then
 	if [ -n "$INSIDE_EMACS" ]; then

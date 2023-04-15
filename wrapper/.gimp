@@ -3,4 +3,4 @@
 if [ -d "${TMPDIR:-}" ]; then
 	cd "$TMPDIR"
 fi
-LANG=ja_JP.UTF-8 LC_ALL='' gimp "$@" 2>>"$(log-dir gimp)/gimp.log"
+ja gimp "$@" 2>>"$(log-dir gimp)/gimp.log"

@@ -4,7 +4,7 @@ if [ -n "${TMPDIR:-}" ]; then
 	cd "$TMPDIR"
 fi
 
-profile=$(progname -r "$0" | sed 's/[^-]*-*//')
+profile=$(basename "$0" | sed 's/[^-]*-*//')
 if [ -z "$profile" ]; then
 	profile=nightly
 fi

@@ -19,7 +19,9 @@ fi
 key=Error
 value=$1
 
-tput setaf 1; tput bold
-printf %12s "$key"
-tput sgr0
-echo " $value"
+(
+    tput setaf 1; tput bold
+    printf %12s "$key"
+    tput sgr0
+    echo " $value"
+) >&2
