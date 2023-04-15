@@ -1,0 +1,8 @@
+#!/bin/sh -Ceu
+
+path=$1
+_path=$(command -v "$path" || :)
+if [ -n "$_path" ]; then
+    path=$_path
+fi
+echo "$(dirname "$path")/$(basename "$path").d"

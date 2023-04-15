@@ -1,6 +1,1 @@
-#!/bin/sh -Ceu
-
-if [ $# -gt 0 ]; then
-  set -- --query "$1"
-fi
-rhq list | sed 's#/\([^/]*/[^/]*\)$#\0\t\1#' | s --with-nth 2 "$@" | sed 's/\t.*//'
+ghq-query

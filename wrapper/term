@@ -1,1 +1,16 @@
-.alacritty
+#!/bin/sh -Ceu
+
+command=${command:-alacritty}
+
+if [ -n "${TMPDIR:-}" ]; then
+	case $command in
+	alacritty)
+		set -- --working-directory "$PWD" "$@"
+	esac
+	cd "$TMPDIR"
+fi
+
+unset SHLVL
+unset LANG LC_ALL
+unset ZELLIJ ZELLIJ_SESSION_NAME
+LC_CTYPE=ja_JP.UTF-8 "$command" "$@"
