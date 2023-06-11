@@ -1,9 +1,5 @@
 #!/bin/sh -Ceu
 
-if [ -n "${TMPDIR:-}" ]; then
-	cd "$TMPDIR"
-fi
-
 profile=$(basename "$0" | sed 's/[^-]*-*//')
 if [ -z "$profile" ]; then
 	profile=nightly
@@ -26,6 +22,5 @@ if [ -x "$pre" ]; then
 	"$pre"
 fi
 
-set -x
 GDK_DPI_SCALE=0.5 MOZ_ENABLE_WAYLAND=1 MOZ_LOG_FILE="$log" \
-  ja "$bin" -P "$profile" "$@"
+  "$bin" -P "$profile" "$@"

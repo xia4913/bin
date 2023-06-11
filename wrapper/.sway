@@ -2,12 +2,12 @@
 
 unset SHLVL
 
-PATH=$HOME/bin/sway:$PATH
-systemctl --user import-environment PATH
-
+PATH=~/bin/sway:$PATH
 GTK_IM_MODULE=fcitx; export GTK_IM_MODULE
 QT_IM_MODULE=fcitx; export QT_IM_MODULE
 XMODIFIERS=@im=fcitx; export XMODIFIERS
+systemctl --user import-environment \
+  PATH GTK_IM_MODULE QT_IM_MODULE XMODIFIERS
 
-cd "$HOME"/tmp
+cd ~/tmp
 sway "$@"

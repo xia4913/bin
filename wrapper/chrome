@@ -1,16 +1,2 @@
 #!/bin/sh -Ceu
-
-name=google-chrome-stable
-if [ -n "${TMPDIR:-}" ]; then
-	cd "$TMPDIR"
-fi
-
-if ! isatty; then
-	log=$(log-dir "$name")/$name.log
-	# shellcheck disable=SC2188
-	2>>"$log"
-fi
-
-set -x
-# ja "$name" --ozone-platform=wayland "$@"
-GDK_DPI_SCALE=1.6 ja "$name" "$@"
+GDK_DPI_SCALE=1.6 ja google-chrome-stable "$@"

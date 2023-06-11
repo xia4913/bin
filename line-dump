@@ -9,7 +9,7 @@ CONTROL_CHARS = %w(
   CAN EM  SUB ESC FS  GS  RS  US
 ).freeze
 
-def visualize(line)
+def format_line(line)
   line.force_encoding('UTF-8').chars.map do |c|
     code = c.ord
     if code < CONTROL_CHARS.length
@@ -22,7 +22,7 @@ end
 
 def print_line(line, number)
   printf(NUMBER_FORMAT, number)
-  puts(visualize(line))
+  puts(format_line(line))
   line.bytes.map{ '%02x' % _1 }.
        each_slice(8).map{ _1.join(' ')}.
        each_slice(2).map{ _1.join('  ' )}.
