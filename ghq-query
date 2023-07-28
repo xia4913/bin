@@ -1,6 +1,0 @@
-#!/bin/sh -Ceu
-
-if [ $# -gt 0 ]; then
-  set -- --query "$1"
-fi
-ghq list | s "$@" | sed "s|^|$(ghq root)/|"
