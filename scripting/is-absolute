@@ -1,2 +1,2 @@
 #!/bin/sh -Ceu
-stdin-or-args "$@" | grep -q '^/'
+args-or-stdin "$@" | grep -q '^/'

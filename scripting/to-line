@@ -1,2 +1,2 @@
 #/bin/sh -eu
-stdin-or-args "$@" | xargs -n1
+args-or-stdin "$@" | xargs -n1

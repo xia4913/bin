@@ -1,2 +1,2 @@
 #!/bin/sh -Ceu
-stdin-or-args "$@" | expand | paste -s -d ' '
+args-or-stdin "$@" | expand | paste -s -d ' '

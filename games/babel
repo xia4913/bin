@@ -20,7 +20,7 @@ while getopts cd:w: f; do
 done
 shift $(( OPTIND - 1 ))
 
-text=$(stdin-or-args "$@")
+text=$(args-or-stdin "$@")
 if [ -z "$text" ]; then
 	text=$(basename "$0" | tr '[:lower:]' '[:upper:]')
 fi

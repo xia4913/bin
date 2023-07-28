@@ -1,6 +1,6 @@
 #!/bin/sh -Ceu
 
-if isatty stdin; then
+if [ $# -gt 0 ] || isatty stdin; then
 	echo "$@"
 else
 	cat
