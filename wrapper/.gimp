@@ -1,6 +1,0 @@
-#!/bin/sh -Ceu
-
-if [ -d "${TMPDIR:-}" ]; then
-	cd "$TMPDIR"
-fi
-ja gimp "$@" 2>>"$(log-dir gimp)/gimp.log"

@@ -1,0 +1,2 @@
+#!/bin/sh -Ceu
+exa-long -d -s none "$@"

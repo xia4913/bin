@@ -1,2 +1,2 @@
 #!/bin/sh -Ceu
-.fd --type f "$@"
+fd- --type f "$@"

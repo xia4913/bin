@@ -18,8 +18,9 @@ for i in $(basename "$0" | fold -1); do
 	esac
 done
 
+grep=rg-
 if [ "$opt_files" = true ]; then
-	.rg --color=never "$@"
+	"$grep" --color=never "$@"
 else
-	.rg "$@" | p
+	"$grep" "$@" | p
 fi

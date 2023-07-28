@@ -1,2 +1,0 @@
-#!/bin/sh -Ceu
-git reset -q "$@"
