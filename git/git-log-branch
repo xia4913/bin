@@ -1,7 +1,6 @@
 #!/bin/sh -Ceu
 
-git-error-unless-inside
 if ! git-is-main-branch; then
-	parent=$(git-parent-commit)
+	set -- $(git-parent-branch)..$(git-current-branch) "$@"
 fi
-git log ${parent:+"$parent"..} "$@"
+git log "$@"

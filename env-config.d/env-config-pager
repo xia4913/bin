@@ -10,19 +10,19 @@ if [ "$TERM" = dumb ]; then
 		pagers='more'
 	fi
 else
-	pagers='less more pager'
+	pagers='sp less more pager'
 fi
 # shellcheck disable=SC2086
 search_for_environ PAGER $pagers
 
 # shellcheck disable=SC2086
 eval "$(sh_opt=s search_for_environ PAGER $pagers)"
-if [ "$PAGER" = less ]; then
-	#less_paging=-inRXaj5
+case $PAGER in
+less)
 	less_paging=-inRXj5
 	environ LESS_PAGING "$less_paging"
 	environ LESS "$less_paging -F"
-	environ LESSHISTFILE -
+	environ LESSHISTFILE ~/tmp/tmp/history/lesshst
 	environ LESSCHARSET utf-8
 
 	blink=$(tput blink)
@@ -39,4 +39,4 @@ if [ "$PAGER" = less ]; then
 	environ LESS_TERMCAP_se "$reset"
 	environ LESS_TERMCAP_us "$underline$cyan"
 	environ LESS_TERMCAP_ue "$reset_underline$reset"
-fi
+esac

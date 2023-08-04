@@ -2,17 +2,15 @@
 
 shell-style-option "$@" | (
 	read -r sh_opt name value
-	if [ -n "$value" ]; then
-		case "$sh_opt" in
-		s)
-			echo "$name='$value'; export $name"
-			;;
-		z)
-			echo "export $name='$value'"
-			;;
-		c)
-			echo "setenv $name '$value'"
-			;;
-		esac
-	fi
+	case "$sh_opt" in
+	s)
+		echo "$name='$value'; export $name"
+		;;
+	z)
+		echo "export $name='$value'"
+		;;
+	c)
+		echo "setenv $name '$value'"
+		;;
+	esac
 )

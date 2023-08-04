@@ -91,7 +91,6 @@ homes=$(find_dirs \
 )
 
 langs=$(find_dirs \
-	"$HOME"/lib/ruby/misc/bin \
 	"$HOME"/.cargo/bin \
 	"$HOME"/.deno/bin \
 	"$HOME"/.go/bin \
