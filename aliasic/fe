@@ -1,5 +1,2 @@
 #!/bin/sh -Ceu
-
-ext=$1
-shift
-f "\\.$ext\$" "$@"
+fa -e "$@"

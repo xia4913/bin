@@ -1,7 +1,2 @@
 #!/bin/sh -Ceu
-
-if [ -n "${LESS_PAGING:-}" ]; then
-	# shellcheck disable=SC2034
-	LESS=$LESS_PAGING
-fi
 PAGING=always p "$@"

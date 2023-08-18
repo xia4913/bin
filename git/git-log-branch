@@ -1,6 +1,6 @@
 #!/bin/sh -Ceu
 
 if ! git-is-main-branch; then
-	set -- $(git-parent-branch)..$(git-current-branch) "$@"
+	set -- "$(git-parent-branch)".."$(git-current-branch)" "$@"
 fi
 git log "$@"

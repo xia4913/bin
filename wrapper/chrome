@@ -1,2 +1,2 @@
 #!/bin/sh -Ceu
-GDK_DPI_SCALE=1.6 ja google-chrome-stable "$@"
+GDK_DPI_SCALE=1.6 XMODIFIERS=@im=fcitx ja google-chrome-stable "$@"

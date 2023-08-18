@@ -3,12 +3,8 @@
 cd ~/tmp
 unset SHLVL
 
-PATH=~/bin/sway:$PATH
-GTK_IM_MODULE=fcitx; export GTK_IM_MODULE
-QT_IM_MODULE=fcitx; export QT_IM_MODULE
-XMODIFIERS=@im=fcitx; export XMODIFIERS
-systemctl --user import-environment \
-  SHELL PATH GTK_IM_MODULE QT_IM_MODULE XMODIFIERS
+PATH=~/bin/wayland/sway:~/bin/wayland:$PATH
+systemctl --user import-environment SHELL PATH
 
 sway "$@"
 systemctl --user stop sway-session.target

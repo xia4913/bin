@@ -68,7 +68,7 @@ distribution() {
 	fi
 }
 
-host=$(hostname -s)
+host=$(uname -n)
 os=$(uname -s)
 machine=$(uname -m)
 dist=$(distribution)

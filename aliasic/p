@@ -8,12 +8,31 @@ if ! isatty stdout; then
 	cat "$@"
 	exit
 fi
+
+pager_args=
+case ${PAGING:-} in
+always)
+	;;
+*)
+	case $PAGER in
+	less|less-)
+		pager_args=-F
+	esac
+esac
 if ! isatty stdin; then
+	if [ -n "$pager_args" ]; then
+		set -- "$pager_args" "$@"
+	fi
 	"$PAGER" "$@"
 	exit
 fi
 
-if [ -n "${PAGING:-}" ]; then
-	set -- --paging="$PAGING" "$@"
+if [ -n "$pager_args" ]; then
+	set -- --pager "$PAGER $pager_args" "$@"
 fi
+case ${PAGING:-} in
+always)
+	set -- --paging="$PAGING" "$@"
+	;;
+esac
 bat "$@"
