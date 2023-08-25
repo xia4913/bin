@@ -1,9 +1,5 @@
 #!/bin/sh -Ceu
 
-if [ $# -eq 1 ] && [ -d "$1" ]; then
-	faketty l "$@" | "$PAGER"
-	exit
-fi
 if ! isatty stdout; then
 	cat "$@"
 	exit

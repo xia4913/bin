@@ -7,5 +7,7 @@ if [ -e "$GIT_DIR" ]; then
 fi
 
 git clone --bare https://github.com/xia4913/dotfiles.git "$GIT_DIR"
-dotfiles checkout
 dotfiles config status.showUntrackedFiles no
+dotfiles checkout
+dotfiles remote set-branches --add origin master
+dotfiles branch --set-upstream-to=origin/master master

@@ -1,0 +1,11 @@
+#!/bin/sh -Ceu
+LESSCHARSET=utf-8 \
+LESSHISTFILE=~/.history/lesshst \
+LESS_TERMCAP_mb=$(printf '\e[5m') \
+LESS_TERMCAP_md=$(printf '\e[1m') \
+LESS_TERMCAP_me=$(printf '\e[0m') \
+LESS_TERMCAP_se=$(printf '\e[0m') \
+LESS_TERMCAP_so=$(printf '\e[1;31m') \
+LESS_TERMCAP_ue=$(printf '\e[24;0m') \
+LESS_TERMCAP_us=$(printf '\e[4;30m') \
+less -inRXj5 "$@"
