@@ -1,0 +1,2 @@
+#!/bin/sh -Ceu
+eza- -lrsnew --no-permissions --no-filesize --no-user "$@"

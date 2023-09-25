@@ -1,14 +1,15 @@
 #!/bin/sh -Ceu
 
-opt_files=false
 for i in $(basename "$0" | fold -1); do
 	case $i in
+	1)
+		set -- -m1 "$@"
+		;;
 	f)
 		set -- -F "$@"
 		;;
 	l)
-		set -- -l "$@"
-		opt_files=true
+		set -- -l --color=never "$@"
 		;;
 	s)
 		set -- -s "$@"
@@ -17,10 +18,4 @@ for i in $(basename "$0" | fold -1); do
 		set -- -w "$@"
 	esac
 done
-
-grep=rg-
-if [ "$opt_files" = true ]; then
-	"$grep" --color=never "$@"
-else
-	"$grep" "$@" | p
-fi
+rg- "$@" | p

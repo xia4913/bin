@@ -7,8 +7,5 @@ case ${1:-} in
   exit $?
 esac
 
-if [ $# -gt 0 ]; then
-  set -- --query "$1"
-fi
 ghr list -p | sed 's|\([^/]*/[^/]*\)$|\1 \1|' | \
-  s --with-nth 2 "$@" | choose 0
+  s "$@" --with-nth 2 | choose 0

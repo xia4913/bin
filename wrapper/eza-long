@@ -1,0 +1,2 @@
+#!/bin/sh -Ceu
+eza- -l -g --git "$@"
