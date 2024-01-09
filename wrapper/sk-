@@ -1,5 +1,7 @@
 #!/bin/sh -Ceu
-sk --select-1 --height 0 --layout reverse \
+sk --select-1 \
+  --height 0 --no-clear-start \
+  --layout reverse \
   --bind ctrl-k:kill-line \
   --color matched:1,matched_bg:-1,current_match:1 \
   "$@"

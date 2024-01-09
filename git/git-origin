@@ -20,9 +20,13 @@ if [ "${short:-}" != true ]; then
 	echo "$origin"
 else
 	echo "$origin" | awk '
-		{
+		/github\.com/ {
 			sub("^(https://|git@)github\\.com[/:]", "github:", $0);
 			sub("\\.git$", "", $0);
+			print;
+		}
+		/\.git$/ {
+			sub(".*/", "", $0);
 			print;
 		}
 	'

@@ -1,6 +1,6 @@
 #!/bin/sh -Ceu
 LESSCHARSET=utf-8 \
-LESSHISTFILE=~/.history/lesshst \
+LESSHISTFILE=${XDG_CACHE_HOME:-~/.cache}/history/lesshst \
 LESS_TERMCAP_mb=$(printf '\e[5m') \
 LESS_TERMCAP_md=$(printf '\e[1m') \
 LESS_TERMCAP_me=$(printf '\e[0m') \

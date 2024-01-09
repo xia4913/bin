@@ -1,12 +1,33 @@
 #!/bin/sh -Ceu
 
+short=
+while getopts s f; do
+	case $f in
+	s)
+		short=1
+		;;
+	\?)
+		;;
+	esac
+done
+shift $(( OPTIND - 1 ))
+
 if git-is-inside; then
 	s=$(git-origin -s || echo "git:$(git-top)")
-	relative=$(git-relative)
-	if [ "$relative" != '.' ]; then
-		s="$s $relative"
+	if [ -n "$short" ]; then
+		relative=$(git-relative)
+		if [ "$relative" != '.' ]; then
+			s="$s $relative"
+		fi
 	fi
 	echo "$s"
 else
-	echo "$PWD"
+	if [ -n "$short" ]; then
+		case $PWD in
+		*)
+			echo "${PWD##*/}"
+		esac
+	else
+		echo "$PWD"
+	fi
 fi

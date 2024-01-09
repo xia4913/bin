@@ -2,7 +2,7 @@
 
 umask 077
 
-run_dir=$XDG_RUNTIME_DIR/ssh/auth
+run_dir=${XDG_RUNTIME_DIR:-/tmp/user-"$(id -u)"}/ssh/auth
 symlink=$run_dir/symlink
 if [ -h "$symlink" ]; then
 	target=$(readlink "$symlink")
