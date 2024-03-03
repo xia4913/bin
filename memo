@@ -1,2 +1,20 @@
 #!/bin/sh -Ceu
-<~/.config/memo/default s "$@"
+
+name=default
+while getopts n: f; do
+  case $f in
+  n)
+    name=$OPTARG
+    ;;
+  \?)
+    exit 1
+  esac
+done
+shift $(( OPTIND - 1 ))
+
+file=~/.config/memo/$name
+if ! [ -f "$file" ]; then
+  perror enoent "$file"
+  exit 1
+fi
+<"$file" s "$@"

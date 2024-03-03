@@ -4,7 +4,8 @@ cd ~/tmp
 unset SHLVL
 
 PATH=~/bin/wayland/sway:~/bin/wayland:$PATH
-systemctl --user import-environment SHELL PATH PAGER EDITOR SSH_AUTH_SOCK
+systemctl --user import-environment \
+ SHELL PATH PAGER EDITOR TMPDIR SSH_AUTH_SOCK
 
 sway "$@"
 systemctl --user stop sway-session.target

@@ -4,7 +4,7 @@ cyclic=false
 sep='  '
 wait=0.4
 while getopts cd:w: f; do
-	case "$f" in
+	case $f in
 	c)
 		cyclic=true
 		;;

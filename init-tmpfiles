@@ -1,6 +1,2 @@
 #!/bin/sh -Ceu
-
 systemd-tmpfiles --user --create init.conf
-if is-command-available xdg-user-dirs-update; then
-  xdg-user-dirs-update --set DOWNLOAD "$(readlink ~/.xdg/Downloads)"
-fi

@@ -1,0 +1,2 @@
+#!/bin/sh -Ceu
+pacman -Qo "$1" | choose 4 | xargs -r pacman -Qi | p

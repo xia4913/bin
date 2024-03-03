@@ -1,0 +1,14 @@
+#!/bin/sh -Ceu
+
+if [ $# -eq 0 ]; then
+	# shellcheck disable=SC2046
+	set -- $(pacdiff -o)
+fi
+for i in "$@"; do
+	pacnew=$i
+	file=${i%.pacnew}
+	if [ "$pacnew" = "$file" ]; then
+		pacnew=$file.pacnew
+	fi
+	d "$pacnew" "$file"
+done | p

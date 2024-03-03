@@ -84,7 +84,6 @@ homes=$(find_dirs \
 		"$HOME"/bin/wrapper \
 		"$HOME"/bin/git \
 		"$HOME"/bin/cargo \
-		"$HOME"/bin/zellij \
 		"$HOME"/bin/games \
 		"$HOME"/bin \
 	)"

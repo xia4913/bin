@@ -6,8 +6,12 @@ if [ -e "$GIT_DIR" ]; then
 	exit 1
 fi
 
+remote=origin
+branch=main
+
 git clone --bare https://github.com/xia4913/dotfiles.git "$GIT_DIR"
 dotfiles config status.showUntrackedFiles no
 dotfiles checkout
-dotfiles remote set-branches --add origin master
-dotfiles branch --set-upstream-to=origin/master master
+dotfiles remote set-branches --add "$remote" "$branch"
+dotfiles fetch
+dotfiles branch --set-upstream-to "$remote"/"$branch" "$branch"

@@ -1,2 +1,7 @@
 #!/bin/sh -Ceu
+
+if [ -z "${DISPLAY:-}" ] && [ -n "${WAYLAND_DISPLAY:-}" ]; then
+  bg-run Xwayland
+  DISPLAY=:0; export DISPLAY
+fi
 GDK_DPI_SCALE=1.6 XMODIFIERS=@im=fcitx ja google-chrome-stable "$@"

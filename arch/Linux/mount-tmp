@@ -1,7 +1,5 @@
 #!/bin/sh -Ceu
 
-# mnt=$(realpath "$1")
-# tmp=${TMPDIR}/$mnt
 mnt=$1
 tmp=${TMPDIR}/$(realpath "$mnt")
 
