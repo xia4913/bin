@@ -1,0 +1,2 @@
+#!/bin/sh -Ceu
+zellij-last-output | tail -1

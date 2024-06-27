@@ -1,6 +1,6 @@
 #!/bin/sh -Ceu
 
-if [ -n "$1" ]; then
+if [ -n "${1:-}" ]; then
 	set -- --points-at "$1"
 fi
 git-error-unless-inside && git branch --format '%(refname:short)' "$@"

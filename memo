@@ -17,4 +17,4 @@ if ! [ -f "$file" ]; then
   perror enoent "$file"
   exit 1
 fi
-<"$file" s "$@"
+<"$file" g --color never -v '^\s*#' | s "$@"

@@ -1,0 +1,6 @@
+#!/bin/sh -Ceu
+
+if [ -z "${1:-}" ]; then
+	set -- HEAD
+fi
+git commit --fixup "$@"

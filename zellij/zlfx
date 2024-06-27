@@ -1,0 +1,2 @@
+#!/bin/sh -Ceu
+zlu | xargs -r firefox

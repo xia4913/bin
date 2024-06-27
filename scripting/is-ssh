@@ -1,0 +1,2 @@
+#!/bin/sh -Ceu
+[ -n "${SSH_TTY:-}" ]

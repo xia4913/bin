@@ -1,0 +1,2 @@
+#!/bin/sh -Ceu
+is-ssh && echo "$(uname -n) "

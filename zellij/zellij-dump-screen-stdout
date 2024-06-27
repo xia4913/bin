@@ -1,0 +1,12 @@
+#!/bin/sh -Ceu
+
+progname=$(basename "$0")
+tmp=$(mktemp -u --tmpdir "$progname".XXXXXXXXXX)
+clean() {
+  rm -f "$tmp"
+}
+trap clean EXIT
+
+set -- "$@" "$tmp"
+zellij action dump-screen "$@"
+cat "$tmp"

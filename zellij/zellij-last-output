@@ -1,0 +1,2 @@
+#!/bin/sh -Ceu
+zellij-dump-screen-stdout | extract-last-output

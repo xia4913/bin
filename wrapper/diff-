@@ -1,2 +1,2 @@
 #!/bin/sh -Ceu
-delta "$@" | p
+delta "$@"
