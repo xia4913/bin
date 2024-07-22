@@ -2,6 +2,10 @@
 
 umask 077
 
+if ! is-command-available ssh-agent; then
+	exit 1
+fi
+
 run_dir=${XDG_RUNTIME_DIR:-/tmp/user-"$(id -u)"}/ssh/auth
 symlink=$run_dir/symlink
 if [ -h "$symlink" ]; then

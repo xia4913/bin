@@ -1,2 +1,2 @@
 #!/bin/sh -Ceu
-ip -brief -4 address show scope global | choose -f '[ /]' 2
+ip -brief -4 address show scope global | g --color never -o '(\d+\.){3}\d+'

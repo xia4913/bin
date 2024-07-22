@@ -1,0 +1,6 @@
+#!/bin/sh -Ceu
+
+if [ $# = 0 ]; then
+  set -- -d0
+fi
+pkglog "$@" | pkglog-filter

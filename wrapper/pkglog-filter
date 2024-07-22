@@ -1,0 +1,127 @@
+#!/usr/bin/env ruby
+# colorize pkglog like paru's UpgradeMenu
+
+class Fields
+  POSITIONS = {
+    date: 0,
+    time: 2,
+    ver: 6,
+    sig: 8,
+    new_ver: 10,
+  }
+
+  def initialize(s)
+    @a = self.class.chunk_match(s, ' ')
+  end
+
+  def [](pos)
+    if pos.instance_of?(Symbol)
+      pos = POSITIONS[pos] 
+    end
+    @a[pos]&.extend(ColorableString)
+  end
+
+  def to_s
+    %i(date time sig).each do |pos|
+      self.colorize_nth(pos, :dim)
+    end
+    @a.join
+  end
+
+  def sig
+    self[:sig]
+  end
+
+  def colorize_nth(pos, *colors)
+    self[pos].replace(Colorize.colorize(self[pos], *colors)) if self[pos]
+  end
+
+  def highlight_version(*colors)
+    self.colorize_nth(:ver, *colors)
+  end
+
+  def highlight_diff(old_color, new_color)
+    pos = self.diff_position
+    self[:ver].colorize_after(pos, old_color)
+    self[:new_ver].colorize_after(pos, new_color)
+  end
+
+  def diff_position
+    self.class.diff_position(self[:ver], self[:new_ver], /[[:alnum:]]/)
+  end
+
+  class <<self
+    def chunk_match(s, re)
+      s.chars.chunk{|c| c.match?(re) }.map{ _2.join }
+    end
+
+    def diff_position(s0, s1, re)
+      c0 = chunk_match(s0, re)
+      c1 = chunk_match(s1, re)
+      nth = c0.zip(c1)
+        .each.with_index.find{|a, index| a[0] != a[1] }&.last
+      if nth
+        c0[0 ... nth].map(&:length).sum
+      else
+        0
+      end
+    end
+  end
+
+  module ColorableString
+    def colorize_after(pos, *colors)
+      self.replace([
+        self[0, pos],
+        Colorize.colorize(self[pos .. -1], *colors)
+      ].join)
+    end
+  end
+end
+
+module Colorize
+  CODES = {
+    clear:  0,
+    dim:    2, 
+    red:   31,
+    green: 32,
+  }
+
+  class <<self
+    def escape_sequence(*colors)
+      format("\e[%sm", colors.map{|i| CODES[i] }.reject(&:nil?).join(';'))
+    end
+    def colorize(s, *colors)
+      [escape_sequence(*colors), s, escape_sequence(:clear)].join
+    end
+  end
+end
+
+def terminal_width
+  @cols ||= (ENV['COLUMNS'] || `tput cols`).to_i
+end
+
+def highlight_line(line)
+  case line
+  when /^-+$/
+    width = terminal_width
+    line.replace('-' * width) if 0 < width && width < line.length
+    Colorize.colorize(line, :dim)
+  when /###/
+    Colorize.colorize(line, :dim)
+  else
+    Fields.new(line).tap do |f|
+      case f.sig
+      when '->'
+        f.highlight_diff(:red, :green)
+      when 'installed'
+        f.highlight_version(:green)
+      when 'removed'
+        f.highlight_version(:red)
+      end
+    end.to_s
+  end
+end
+
+while l = gets&.chomp
+  puts(highlight_line(l))
+end
