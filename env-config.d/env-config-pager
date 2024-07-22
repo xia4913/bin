@@ -10,7 +10,7 @@ if [ "$TERM" = dumb ]; then
 		pagers='more'
 	fi
 else
-	pagers='less- less more pager'
+	pagers='less- more'
 fi
 # shellcheck disable=SC2086
 search_for_environ PAGER $pagers

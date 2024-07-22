@@ -24,8 +24,11 @@ replace_bin() {
 	shift
 	to-line "$@" | sed -n '/\/bin$/s#/bin$#/'"$dest"'#p'
 }
+replace_home() {
+	sed "s#^$HOME#~$USER#"
+}
 set_path() {
-	list=$(path_list "$@")
+	list=$(path_list "$@" | replace_home)
 	if [ -n "$list" ]; then
 		# shellcheck disable=SC2154
 		case "$sh_opt" in

@@ -3,9 +3,9 @@
 # shellcheck disable=SC1091
 . "$(dirname "$0")/subr"
 
-editors='ex ed editor'
+editors='ex ed'
 if [ "${TERM:-}" != dumb ]; then
-	editors="hx helix vi $editors"
+	editors="hx- vi $editors"
 fi
 # shellcheck disable=SC2086
 search_for_environ EDITOR $editors
