@@ -1,0 +1,11 @@
+#!/bin/sh -Ceu
+
+if [ -n "${DOAS_USER:-}" ] ||  [ -n "${SUDO_USER:-}" ]; then
+	log=$(mktemp -u)
+else
+	log=$HOME/tmp/log/helix.log
+fi
+if [ -n "${log:-}" ]; then
+	set -- --log "$log" "$@"
+fi
+hx "$@"
